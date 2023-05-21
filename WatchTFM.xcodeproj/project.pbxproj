@@ -16,6 +16,7 @@
 		DC30124A2A1A69BF008B5CA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3012492A1A69BF008B5CA3 /* ContentView.swift */; };
 		DC30124C2A1A69C0008B5CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC30124B2A1A69C0008B5CA3 /* Assets.xcassets */; };
 		DC30124F2A1A69C0008B5CA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC30124E2A1A69C0008B5CA3 /* Preview Assets.xcassets */; };
+		DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		DC30125A2A1A6A9C008B5CA3 /* WatchTFM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchTFM.entitlements; sourceTree = "<group>"; };
 		DC30125B2A1A6B07008B5CA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DC30125C2A1A6B38008B5CA3 /* WatchTFM Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WatchTFM Watch App.entitlements"; sourceTree = "<group>"; };
+		DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				DC30125C2A1A6B38008B5CA3 /* WatchTFM Watch App.entitlements */,
 				DC3012472A1A69BF008B5CA3 /* WatchTFMApp.swift */,
 				DC3012492A1A69BF008B5CA3 /* ContentView.swift */,
+				DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */,
 				DC30124B2A1A69C0008B5CA3 /* Assets.xcassets */,
 				DC30124D2A1A69C0008B5CA3 /* Preview Content */,
 			);
@@ -247,6 +250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC30124A2A1A69BF008B5CA3 /* ContentView.swift in Sources */,
+				DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */,
 				DC3012482A1A69BF008B5CA3 /* WatchTFMApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
