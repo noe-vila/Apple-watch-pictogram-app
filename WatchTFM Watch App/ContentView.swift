@@ -9,38 +9,59 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject private var healthKitManager = HealthKitManager()
-    
+    @State private var imageUrl = URL(string: "https://api.arasaac.org/api/pictograms/6522?download=false")
+    @State private var taskCompleted = false
     
     var body: some View {
-        VStack{
-            HStack{
-                Text("❤️")
-                    .font(.system(size: 50))
-                Spacer()
-                
-            }
+        VStack {
+            AsyncImage(url: imageUrl, content: { image in
+                image
+                    .resizable()
+                    .background(Color.white)
+                    .scaledToFill()
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            }, placeholder: {
+                ProgressView()
+            })
+            .gesture(
+                TapGesture()
+                    .onEnded { _ in
+                        withAnimation {
+                            taskCompleted.toggle()
+                        }
+                    }
+            )
             
-            HStack{
-                Text("\(healthKitManager.currentValue)")
-                    .fontWeight(.regular)
-                    .font(.system(size: 70))
+            if taskCompleted {
+                HStack {
+                    Circle()
+                        .foregroundColor(.green)
+                        .frame(width: 50, height: 50)
+                        .overlay(Image(systemName: "checkmark")
+                            .foregroundColor(.white)
+                            .font(.system(size: 25)))
+                    
+                    Circle()
+                        .foregroundColor(.red)
+                        .frame(width: 50, height: 50)
+                        .overlay(Image(systemName: "xmark")
+                            .foregroundColor(.white)
+                            .font(.system(size: 25)))
+                }
                 
-                Text("PPM")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.red)
-                    .padding(.bottom, 28.0)
-                
-                Spacer()
             }
         }
+        .transition(.identity)
+        .animation(.easeInOut, value: taskCompleted)
         .padding()
-        .onAppear{
+        .onAppear {
             healthKitManager.start()
         }
     }
 }
-    
+
+
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
