@@ -9,16 +9,17 @@ import SwiftUI
 
 struct NavigationBarView: View {
     @Binding var selectedTab: String
+    let taskViewModel: TaskViewModel
     
     var body: some View {
         HStack(spacing: 0) {
-            TabButton(imageName: "house", selectedImageName: "house.fill", tabName: "Home", selectedTab: $selectedTab)
+            TabButton(imageName: "house", selectedImageName: "house.fill", tabName: "Home", taskViewModel: taskViewModel, selectedTab: $selectedTab)
             Spacer()
-            TabButton(imageName: "magnifyingglass.circle", selectedImageName: "magnifyingglass.circle.fill", tabName: "Search", selectedTab: $selectedTab)
+            TabButton(imageName: "magnifyingglass.circle", selectedImageName: "magnifyingglass.circle.fill", tabName: "Search", taskViewModel: taskViewModel, selectedTab: $selectedTab)
             Spacer()
-            TabButton(imageName: "plus.circle", selectedImageName: "plus.circle.fill", tabName: "Add", selectedTab: $selectedTab)
+            TabButton(imageName: "plus.circle", selectedImageName: "plus.circle.fill", tabName: "Add", taskViewModel: taskViewModel, selectedTab: $selectedTab)
             Spacer()
-            TabButton(imageName: "person", selectedImageName: "person.fill", tabName: "Profile", selectedTab: $selectedTab)
+            TabButton(imageName: "person", selectedImageName: "person.fill", tabName: "Profile", taskViewModel: taskViewModel, selectedTab: $selectedTab)
         }
         .padding()
         .background(NavigationBarStyle())
@@ -30,11 +31,16 @@ struct TabButton: View {
     let imageName: String
     let selectedImageName: String
     let tabName: String
+    let taskViewModel: TaskViewModel
     @Binding var selectedTab: String
     
     var body: some View {
         Button(action: {
-            selectedTab = tabName
+            if tabName == "Add" {
+                taskViewModel.addTask("Elemento")
+            } else {
+                selectedTab = tabName
+            }
         }) {
             Image(systemName: selectedTab == tabName ? selectedImageName : imageName)
                 .font(.system(size: 25))
