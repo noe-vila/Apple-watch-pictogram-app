@@ -19,6 +19,8 @@
 		DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */; };
 		DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */; };
 		DC96DD1F2A1D2F3A00DA6A13 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */; };
+		DC96DD262A1D372000DA6A13 /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD252A1D372000DA6A13 /* TaskViewModel.swift */; };
+		DC96DD282A1D46E000DA6A13 /* TaskItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
+		DC96DD252A1D372000DA6A13 /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
+		DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +111,7 @@
 				DC30125A2A1A6A9C008B5CA3 /* WatchTFM.entitlements */,
 				DC3012352A1A69BD008B5CA3 /* WatchTFMApp.swift */,
 				DC96DD202A1D316D00DA6A13 /* Views */,
-				DC96DD222A1D31D800DA6A13 /* Models */,
+				DC96DD222A1D31D800DA6A13 /* ViewModel */,
 				DC3012392A1A69BF008B5CA3 /* Assets.xcassets */,
 				DC30123B2A1A69BF008B5CA3 /* Preview Content */,
 			);
@@ -150,6 +154,7 @@
 				DC3012372A1A69BD008B5CA3 /* ContentView.swift */,
 				DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */,
 				DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */,
+				DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -162,11 +167,12 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		DC96DD222A1D31D800DA6A13 /* Models */ = {
+		DC96DD222A1D31D800DA6A13 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				DC96DD252A1D372000DA6A13 /* TaskViewModel.swift */,
 			);
-			path = Models;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		DC96DD242A1D31FA00DA6A13 /* Models */ = {
@@ -278,9 +284,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC96DD282A1D46E000DA6A13 /* TaskItemView.swift in Sources */,
 				DC96DD1F2A1D2F3A00DA6A13 /* NavigationBarView.swift in Sources */,
 				DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */,
 				DC3012382A1A69BD008B5CA3 /* ContentView.swift in Sources */,
+				DC96DD262A1D372000DA6A13 /* TaskViewModel.swift in Sources */,
 				DC3012362A1A69BD008B5CA3 /* WatchTFMApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

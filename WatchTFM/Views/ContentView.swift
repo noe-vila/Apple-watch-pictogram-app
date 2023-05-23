@@ -8,27 +8,56 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var taskItems = ["Elemento 1", "Elemento 2", "Elemento 3"]
-    @State private var newItem = ""
     @State private var isLoggedIn = true
+    @StateObject private var taskViewModel = TaskViewModel()
     @State private var selectedTab = "Home"
-
+    @State private var isEditing = false
+    
+    
     var body: some View {
         if isLoggedIn {
             NavigationView {
                 VStack {
                     ScrollView {
                         LazyVStack {
-                            ForEach(taskItems, id: \.self) { task in
-                                TaskItemView(task: task)
+                            ForEach(taskViewModel.getTaskItems(), id: \.self) { task in
+                                HStack {
+                                    TaskItemView(task: task)
+                                        .opacity(isEditing ? 0.5 : 1.0)
+                                    Spacer()
+                                    
+                                    if isEditing {
+                                        Button(action: {
+                                            guard let index = taskViewModel.getTaskIndex(task: task) else { return }
+                                            taskViewModel.removeTask(index: index)
+                                        }) {
+                                            Image(systemName: "trash")
+                                                .foregroundColor(.red)
+                                        }
+                                        .frame(height: 50)
+                                    }
+                                }
+                                .animation(.default, value: taskViewModel.getTaskItems())
+                            }
+                            .onDelete { indexSet in
+                                indexSet.forEach { index in
+                                    taskViewModel.removeTask(index: index)
+                                }
                             }
                         }
                     }
                     .padding(.bottom, 20)
-
-                    NavigationBarView(selectedTab: $selectedTab)
+                    NavigationBarView(selectedTab: $selectedTab, taskViewModel: taskViewModel)
+                        .opacity(isEditing ? 0.5 : 1.0)
+                        .disabled(isEditing)
                 }
-                .navigationBarHidden(true)
+                .environmentObject(taskViewModel)
+                .navigationBarHidden(false)
+                .navigationBarItems(trailing: Button(action: {
+                    isEditing.toggle()
+                }) {
+                    Text(isEditing ? "Hecho" : "Editar")
+                })
             }
         } else {
             LoginView(isLoggedIn: $isLoggedIn)
@@ -36,20 +65,6 @@ struct ContentView: View {
     }
 }
 
-struct TaskItemView: View {
-    var task: String
-    
-    var body: some View {
-        HStack {
-            Circle()
-                .foregroundColor(.blue)
-                .frame(width: 50, height: 50)
-            Text(task)
-            Spacer()
-        }
-        .padding()
-    }
-}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
