@@ -17,6 +17,8 @@
 		DC30124C2A1A69C0008B5CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC30124B2A1A69C0008B5CA3 /* Assets.xcassets */; };
 		DC30124F2A1A69C0008B5CA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC30124E2A1A69C0008B5CA3 /* Preview Assets.xcassets */; };
 		DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */; };
+		DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */; };
+		DC96DD1F2A1D2F3A00DA6A13 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		DC30125B2A1A6B07008B5CA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DC30125C2A1A6B38008B5CA3 /* WatchTFM Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WatchTFM Watch App.entitlements"; sourceTree = "<group>"; };
 		DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +106,8 @@
 				DC30125B2A1A6B07008B5CA3 /* Info.plist */,
 				DC30125A2A1A6A9C008B5CA3 /* WatchTFM.entitlements */,
 				DC3012352A1A69BD008B5CA3 /* WatchTFMApp.swift */,
-				DC3012372A1A69BD008B5CA3 /* ContentView.swift */,
+				DC96DD202A1D316D00DA6A13 /* Views */,
+				DC96DD222A1D31D800DA6A13 /* Models */,
 				DC3012392A1A69BF008B5CA3 /* Assets.xcassets */,
 				DC30123B2A1A69BF008B5CA3 /* Preview Content */,
 			);
@@ -120,9 +125,10 @@
 		DC3012462A1A69BF008B5CA3 /* WatchTFM Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				DC96DD212A1D31A500DA6A13 /* Views */,
+				DC96DD242A1D31FA00DA6A13 /* Models */,
 				DC30125C2A1A6B38008B5CA3 /* WatchTFM Watch App.entitlements */,
 				DC3012472A1A69BF008B5CA3 /* WatchTFMApp.swift */,
-				DC3012492A1A69BF008B5CA3 /* ContentView.swift */,
 				DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */,
 				DC30124B2A1A69C0008B5CA3 /* Assets.xcassets */,
 				DC30124D2A1A69C0008B5CA3 /* Preview Content */,
@@ -136,6 +142,38 @@
 				DC30124E2A1A69C0008B5CA3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DC96DD202A1D316D00DA6A13 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DC3012372A1A69BD008B5CA3 /* ContentView.swift */,
+				DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */,
+				DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DC96DD212A1D31A500DA6A13 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DC3012492A1A69BF008B5CA3 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DC96DD222A1D31D800DA6A13 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DC96DD242A1D31FA00DA6A13 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +278,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC96DD1F2A1D2F3A00DA6A13 /* NavigationBarView.swift in Sources */,
+				DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */,
 				DC3012382A1A69BD008B5CA3 /* ContentView.swift in Sources */,
 				DC3012362A1A69BD008B5CA3 /* WatchTFMApp.swift in Sources */,
 			);
