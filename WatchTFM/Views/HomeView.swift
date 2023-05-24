@@ -43,7 +43,6 @@ struct HomeView: View {
             }
         }
         .padding(.bottom, 20)
-        .navigationBarHidden(false)
         .navigationBarItems(trailing: Button(action: {
             isEditing.toggle()
         }) {
