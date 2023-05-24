@@ -25,6 +25,7 @@
 		DC96DD2D2A1E011100DA6A13 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD2C2A1E011100DA6A13 /* HomeView.swift */; };
 		DC96DD2F2A1E15A200DA6A13 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD2E2A1E15A200DA6A13 /* SearchView.swift */; };
 		DC96DD312A1E25F100DA6A13 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD302A1E25F100DA6A13 /* SearchViewModel.swift */; };
+		DC96DD332A1E71F400DA6A13 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD322A1E71F400DA6A13 /* AddView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		DC96DD2C2A1E011100DA6A13 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		DC96DD2E2A1E15A200DA6A13 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		DC96DD302A1E25F100DA6A13 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		DC96DD322A1E71F400DA6A13 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */,
 				DC96DD2C2A1E011100DA6A13 /* HomeView.swift */,
 				DC96DD2E2A1E15A200DA6A13 /* SearchView.swift */,
+				DC96DD322A1E71F400DA6A13 /* AddView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */,
 				DC3012382A1A69BD008B5CA3 /* ContentView.swift in Sources */,
 				DC96DD262A1D372000DA6A13 /* TaskViewModel.swift in Sources */,
+				DC96DD332A1E71F400DA6A13 /* AddView.swift in Sources */,
 				DC96DD312A1E25F100DA6A13 /* SearchViewModel.swift in Sources */,
 				DC96DD2D2A1E011100DA6A13 /* HomeView.swift in Sources */,
 				DC96DD2B2A1DFD7400DA6A13 /* Task.swift in Sources */,
