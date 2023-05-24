@@ -12,6 +12,7 @@ struct ContentView: View {
     @StateObject private var taskViewModel = TaskViewModel()
     @State private var isEditing = false
     @State private var selectedTab: String = "Home"
+    @State private var isPresentingAddView = false
     
     var body: some View {
         if isLoggedIn {
@@ -30,6 +31,14 @@ struct ContentView: View {
                 }
                 .environmentObject(taskViewModel)
                 .navigationBarHidden(false)
+                .sheet(isPresented: $isPresentingAddView, onDismiss: {
+                    selectedTab = "Home"
+                }) {
+                    AddView()
+                }
+                .onChange(of: selectedTab) { newTab in
+                    isPresentingAddView = newTab == "Add"
+                }
             }
         } else {
             LoginView(isLoggedIn: $isLoggedIn)

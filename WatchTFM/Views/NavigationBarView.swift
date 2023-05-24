@@ -34,9 +34,6 @@ struct TabButton: View {
     
     var body: some View {
         Button(action: {
-            if tabName == "Add" {
-                //taskViewModel.addTask("Elemento")
-            }
             selectedTab = tabName
         }) {
             Image(systemName: selectedTab == tabName ? selectedImageName : imageName)
