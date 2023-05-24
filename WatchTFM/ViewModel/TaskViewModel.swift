@@ -56,7 +56,8 @@ class TaskViewModel: ObservableObject {
     private func loadTasks() {
         do {
             let tasksString = try String(contentsOf: fileURL, encoding: .utf8)
-            taskItems = tasksString.components(separatedBy: "\n")
+            let tasks = tasksString.split(separator: "\n").filter { !$0.isEmpty }
+            taskItems = tasks.map { String($0) }
         } catch {
             print("Error loading tasks: \(error)")
         }

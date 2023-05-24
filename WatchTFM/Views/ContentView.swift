@@ -29,15 +29,17 @@ struct ContentView: View {
                                     if isEditing {
                                         Button(action: {
                                             guard let index = taskViewModel.getTaskIndex(task: task) else { return }
-                                            taskViewModel.removeTask(index: index)
+                                            withAnimation {
+                                                taskViewModel.removeTask(index: index)
+                                            }
                                         }) {
                                             Image(systemName: "trash")
                                                 .foregroundColor(.red)
                                         }
+                                        .padding()
                                         .frame(height: 50)
                                     }
                                 }
-                                .animation(.default, value: taskViewModel.getTaskItems())
                             }
                             .onDelete { indexSet in
                                 indexSet.forEach { index in
