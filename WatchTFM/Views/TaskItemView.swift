@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct TaskItemView: View {
-    var task: String
+    var task: Task
     
     var body: some View {
         HStack {
             Circle()
                 .foregroundColor(.blue)
                 .frame(width: 50, height: 50)
-            Text(task)
+            Text(task.name)
         }
         .padding()
     }

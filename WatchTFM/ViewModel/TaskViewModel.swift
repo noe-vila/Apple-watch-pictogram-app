@@ -8,35 +8,28 @@
 import SwiftUI
 
 class TaskViewModel: ObservableObject {
-    @Published private var taskItems: [String] = []
-    @State private var newItem = ""
+    @Published private var taskItems: [Task] = []
     
-    // File URL for storing the task data
     private var fileURL: URL {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return documentsDirectory.appendingPathComponent("tasks.txt")
+        return documentsDirectory.appendingPathComponent("tasks.json")
     }
     
     init() {
-        loadTasks() // Load the tasks from the file when the view model is initialized
+        loadTasks()
     }
     
-    func getTaskItems() -> [String] {
+    func getTaskItems() -> [Task] {
         return taskItems
     }
     
-    func addTask(_ task: String) {
-        if taskItems.contains(task) {
-            let taskWithOrderedNumber = "New \(task)"
-            addTask(taskWithOrderedNumber)
-        } else {
-            taskItems.append(task)
-            saveTasks()
-        }
+    func addTask(_ task: Task) {
+        taskItems.append(task)
+        saveTasks()
     }
     
-    func getTaskIndex(task: String) -> Int? {
-        return taskItems.firstIndex(of: task)
+    func getTaskIndex(task: Task) -> Int? {
+        return taskItems.firstIndex { $0 == task }
     }
     
     func removeTask(index: Int) {
@@ -45,9 +38,9 @@ class TaskViewModel: ObservableObject {
     }
     
     private func saveTasks() {
-        let tasksString = taskItems.joined(separator: "\n")
         do {
-            try tasksString.write(to: fileURL, atomically: true, encoding: .utf8)
+            let data = try JSONEncoder().encode(taskItems)
+            try data.write(to: fileURL)
         } catch {
             print("Error saving tasks: \(error)")
         }
@@ -55,9 +48,8 @@ class TaskViewModel: ObservableObject {
     
     private func loadTasks() {
         do {
-            let tasksString = try String(contentsOf: fileURL, encoding: .utf8)
-            let tasks = tasksString.split(separator: "\n").filter { !$0.isEmpty }
-            taskItems = tasks.map { String($0) }
+            let data = try Data(contentsOf: fileURL)
+            taskItems = try JSONDecoder().decode([Task].self, from: data)
         } catch {
             print("Error loading tasks: \(error)")
         }
