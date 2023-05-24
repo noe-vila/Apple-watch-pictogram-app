@@ -26,16 +26,19 @@ struct SearchView: View {
                     GeometryReader { geometry in
                         ScrollView(.horizontal, showsIndicators: true) {
                             LazyHStack(spacing: 10) {
-                                ForEach(viewModel.searchResults, id: \.self) { image in
+                                ForEach(viewModel.searchResults, id: \.self) { pictogram in
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 20)
                                             .fill(Color.gray.opacity(0.2))
                                             .frame(width: 250, height: 250)
-                                        Image(uiImage: image)
+                                        Image(uiImage: pictogram.image)
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: 250, height: 250)
                                             .clipped()
+                                            .onTapGesture {
+                                                print(pictogram.id)
+                                            }
                                     }
                                 }
                             }
