@@ -10,11 +10,16 @@ import SwiftUI
 
 class SearchViewModel: ObservableObject {
     @Published var searchText = ""
-    @Published var searchResults: [UIImage] = []
+    @Published var searchResults: [PictogramResult] = []
     @Published var isSearching = false
     
     private struct Pictogram: Codable {
         let _id: Int
+    }
+    
+    struct PictogramResult: Hashable {
+        let id: Int
+        let image: UIImage
     }
     
     func performSearch() {
@@ -35,24 +40,23 @@ class SearchViewModel: ObservableObject {
             
             do {
                 let searchResults = try JSONDecoder().decode([Pictogram].self, from: data)
-                
+                                
                 DispatchQueue.global().async {
-                    let imageUrls = searchResults.compactMap { pictogram in
-                        self.getImageURLString(for: pictogram)
-                    }
-                    
-                    let images = imageUrls.compactMap { imageUrlString in
-                        if let url = URL(string: imageUrlString),
-                           let data = try? Data(contentsOf: url),
-                           let image = UIImage(data: data) {
-                            return image
+                    let pictogramResults = searchResults.compactMap { (pictogram: Pictogram) -> PictogramResult? in
+                        guard let imageUrlString = self.getImageURLString(for: pictogram),
+                              let url = URL(string: imageUrlString),
+                              let data = try? Data(contentsOf: url),
+                              let image = UIImage(data: data) else {
+                            return nil
                         }
-                        return nil
+                        
+                        let pictogramResult = PictogramResult(id: pictogram._id, image: image)
+                        return pictogramResult
                     }
                     
                     DispatchQueue.main.async {
                         self.isSearching = false
-                        self.searchResults = images
+                        self.searchResults = pictogramResults
                     }
                 }
             } catch {
