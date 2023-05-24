@@ -29,6 +29,7 @@ struct ContentView: View {
                         .disabled(isEditing)
                 }
                 .environmentObject(taskViewModel)
+                .navigationBarHidden(false)
             }
         } else {
             LoginView(isLoggedIn: $isLoggedIn)
