@@ -11,6 +11,8 @@ struct SettingsView: View {
     @State private var newPassword: String = ""
     @State private var isPasswordHidden: Bool = true
     @State private var isIconRotated: Bool = false
+    @Binding var showSettings: Bool
+    let viewModel: LoginViewModel
     
     var body: some View {
         VStack {
@@ -39,7 +41,8 @@ struct SettingsView: View {
             .padding()
             Spacer()
             Button(action: {
-                
+                viewModel.changePassword(newPassword: newPassword)
+                showSettings = false
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -48,7 +51,7 @@ struct SettingsView: View {
                     HStack {
                         Text("Guardar")
                             .foregroundColor(.white)
-                            .font(.system(size: 16, weight: .bold))
+                            .font(.system(size: 16))
                         Image(systemName: "square.and.arrow.down")
                             .font(.system(size: 20))
                             .foregroundColor(.white)

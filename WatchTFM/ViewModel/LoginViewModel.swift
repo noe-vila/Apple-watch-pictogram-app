@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import Combine
 
 struct LoginError: Identifiable {
     let id = UUID()
@@ -65,5 +64,9 @@ class LoginViewModel: ObservableObject {
         password = ""
         UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
         UserDefaults.standard.set(false, forKey: "hasPassword")
+    }
+    
+    func changePassword(newPassword: String) {
+        UserDefaults.standard.set(newPassword, forKey: "password")
     }
 }
