@@ -23,11 +23,11 @@ class LoginViewModel: ObservableObject {
     
     func login() {
         guard let savedPassword = UserDefaults.standard.string(forKey: "password") else {
+            isLoggedIn = true
+            isFirstTimeLogin = false
             UserDefaults.standard.set(true, forKey: "hasPassword")
             UserDefaults.standard.set(password, forKey: "password")
             UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
-            isLoggedIn = true
-            isFirstTimeLogin = false
             password = ""
             return
         }
