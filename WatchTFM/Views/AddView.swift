@@ -62,7 +62,7 @@ struct AddView: View {
                     Button(action: {
                         validateForm()
                     }) {
-                        Text("Enviar")
+                        Text("Guardar")
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
