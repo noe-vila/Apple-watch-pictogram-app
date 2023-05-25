@@ -22,7 +22,7 @@ struct LoginView: View {
                     .padding()
             }
 
-            Button(viewModel.isFirstTimeLogin ? "Guardar" : "Log In") {
+            Button(viewModel.isFirstTimeLogin ? "Guardar" : "Acceder") {
                 viewModel.isFirstTimeLogin ? viewModel.login() : viewModel.profileLogin()
             }
             .padding()
