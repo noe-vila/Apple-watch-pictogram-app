@@ -8,22 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isLoggedIn = true
     @StateObject private var taskViewModel = TaskViewModel()
+    @StateObject private var loginViewModel = LoginViewModel()
     @State private var isEditing = false
     @State private var selectedTab: String = "Home"
     @State private var isPresentingAddView = false
     
     var body: some View {
-        if isLoggedIn {
-            NavigationView {
+        NavigationView {
+            if loginViewModel.isLoggedIn {
+                
                 VStack {
                     if selectedTab == "Home" || selectedTab == "Add" {
                         HomeView(isEditing: $isEditing)
                     } else if selectedTab == "Search" {
                         SearchView()
                     } else if selectedTab == "Profile" {
-                        ProfileView()
+                        ProfileView(viewModel: loginViewModel)
                     }
                     NavigationBarView(selectedTab: $selectedTab)
                         .opacity(isEditing ? 0.5 : 1.0)
@@ -39,9 +40,10 @@ struct ContentView: View {
                 .onChange(of: selectedTab) { newTab in
                     isPresentingAddView = newTab == "Add"
                 }
+            } else {
+                LoginView(viewModel: loginViewModel)
+                    .navigationBarHidden(false)
             }
-        } else {
-            LoginView(isLoggedIn: $isLoggedIn)
         }
     }
 }

@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var isLoggedIn = true
     @State private var showSettings = false
     @State private var showLoginView = true
     @State private var showStatistics = false
-    
+    @State private var showLogin = true
+    @StateObject var viewModel: LoginViewModel
     let images = Array(1...61)
     
     var body: some View {
-        if isLoggedIn {
-            
-            
+        if viewModel.isProfileLoggedIn {
             VStack(spacing: 8) {
                 HStack {
                     Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
@@ -62,22 +60,18 @@ struct ProfileView: View {
             .sheet(isPresented: $showSettings) {
                 SettingsView()
             }
+            .onDisappear {
+                viewModel.profileLogout()
+            }
         } else {
             VStack {
                 Spacer()
-                LoginView(isLoggedIn: $isLoggedIn)
-                    .onAppear {
-                        showLoginView = true
-                    }
+                LoginView(viewModel: viewModel)
                     .opacity(showLoginView ? 1 : 0)
                     .transition(.opacity)
-                    .onChange(of: isLoggedIn) { newValue in
-                        if newValue {
-                            showLoginView = false
-                        }
-                    }
                 Spacer()
             }
+            Spacer()
         }
     }
 }
