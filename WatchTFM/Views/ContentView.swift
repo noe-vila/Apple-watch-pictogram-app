@@ -25,6 +25,9 @@ struct ContentView: View {
                         SearchView()
                     } else if selectedTab == "Profile" {
                         ProfileView(viewModel: loginViewModel)
+                            .onAppear {
+                                loginViewModel.profileLogout()
+                            }
                     }
                     NavigationBarView(selectedTab: $selectedTab)
                         .opacity(isEditing ? 0.5 : 1.0)

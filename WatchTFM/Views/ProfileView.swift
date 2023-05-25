@@ -11,12 +11,11 @@ struct ProfileView: View {
     @State private var showSettings = false
     @State private var showLoginView = true
     @State private var showStatistics = false
-    @State private var showLogin = true
     @StateObject var viewModel: LoginViewModel
     let images = Array(1...61)
     
     var body: some View {
-        if viewModel.isProfileLoggedIn {
+        if viewModel.isProfileLoggedIn  {
             VStack(spacing: 8) {
                 HStack {
                     Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
@@ -58,10 +57,7 @@ struct ProfileView: View {
                 Image(systemName: "gear")
             })
             .sheet(isPresented: $showSettings) {
-                SettingsView()
-            }
-            .onDisappear {
-                viewModel.profileLogout()
+                SettingsView(showSettings: $showSettings, viewModel: viewModel)
             }
         } else {
             VStack {
