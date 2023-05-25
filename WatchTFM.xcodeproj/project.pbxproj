@@ -30,6 +30,7 @@
 		DC96DD372A1F5FE800DA6A13 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD362A1F5FE800DA6A13 /* StatisticsView.swift */; };
 		DC96DD392A1F637D00DA6A13 /* AuthorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD382A1F637D00DA6A13 /* AuthorView.swift */; };
 		DC96DD3B2A1F6A6300DA6A13 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD3A2A1F6A6300DA6A13 /* SettingsView.swift */; };
+		DC96DD3D2A1FA3A700DA6A13 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD3C2A1FA3A700DA6A13 /* LoginViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		DC96DD362A1F5FE800DA6A13 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		DC96DD382A1F637D00DA6A13 /* AuthorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorView.swift; sourceTree = "<group>"; };
 		DC96DD3A2A1F6A6300DA6A13 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		DC96DD3C2A1FA3A700DA6A13 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 			children = (
 				DC96DD252A1D372000DA6A13 /* TaskViewModel.swift */,
 				DC96DD302A1E25F100DA6A13 /* SearchViewModel.swift */,
+				DC96DD3C2A1FA3A700DA6A13 /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				DC96DD282A1D46E000DA6A13 /* TaskItemView.swift in Sources */,
 				DC96DD2F2A1E15A200DA6A13 /* SearchView.swift in Sources */,
 				DC96DD1F2A1D2F3A00DA6A13 /* NavigationBarView.swift in Sources */,
+				DC96DD3D2A1FA3A700DA6A13 /* LoginViewModel.swift in Sources */,
 				DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */,
 				DC96DD352A1F5A6D00DA6A13 /* ProfileView.swift in Sources */,
 				DC96DD372A1F5FE800DA6A13 /* StatisticsView.swift in Sources */,

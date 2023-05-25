@@ -8,23 +8,27 @@
 import SwiftUI
 
 struct LoginView: View {
-    @Binding var isLoggedIn: Bool
-    @State private var password = ""
-    
+    @StateObject var viewModel: LoginViewModel
+
     var body: some View {
         VStack {
-            SecureField("Contraseña", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-            
-            Button("Iniciar sesión") {
-                if password == "contrasena" { // Aquí puedes establecer tu contraseña válida
-                    isLoggedIn = true
-                } else {
-                    // Manejar la contraseña incorrecta, mostrar mensaje de error, etc.
-                }
+            if viewModel.isFirstTimeLogin {
+                SecureField("Establece contraseña", text: $viewModel.password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+            } else {
+                SecureField("Contraseña", text: $viewModel.password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+            }
+
+            Button(viewModel.isFirstTimeLogin ? "Guardar" : "Log In") {
+                viewModel.isFirstTimeLogin ? viewModel.login() : viewModel.profileLogin()
             }
             .padding()
+            .alert(item: $viewModel.error) { error in
+                Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
+            }
         }
     }
 }
