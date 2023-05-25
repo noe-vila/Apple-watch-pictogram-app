@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
+    @State private var isEditing = false
     
     var body: some View {
         VStack {
@@ -49,8 +50,10 @@ struct SearchView: View {
                 VStack {
                     Spacer()
                     HStack {
-                        TextField("Buscar", text: $viewModel.searchText)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        TextField("Buscar", text: $viewModel.searchText, onEditingChanged: { editing in
+                            isEditing = editing
+                        })
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         Button(action: {
                             viewModel.performSearch()
                         }) {
@@ -66,6 +69,11 @@ struct SearchView: View {
                     }
                     .padding()
                 }
+            }
+        }
+        .onTapGesture {
+            if isEditing {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
         }
         .padding()
