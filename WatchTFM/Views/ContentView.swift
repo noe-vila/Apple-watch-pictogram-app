@@ -23,7 +23,7 @@ struct ContentView: View {
                     } else if selectedTab == "Search" {
                         SearchView()
                     } else if selectedTab == "Profile" {
-                        //ProfileView
+                        ProfileView()
                     }
                     NavigationBarView(selectedTab: $selectedTab)
                         .opacity(isEditing ? 0.5 : 1.0)

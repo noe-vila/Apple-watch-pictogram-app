@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var taskViewModel: TaskViewModel
+    @State private var showInfo = false
     @Binding var isEditing: Bool
 
     var body: some View {
@@ -48,5 +49,13 @@ struct HomeView: View {
         }) {
             Text(isEditing ? "Hecho" : "Editar")
         })
+        .navigationBarItems(leading: Button(action: {
+            showInfo.toggle()
+        }) {
+            Text("Info")
+        })
+        .sheet(isPresented: $showInfo) {
+            AuthorView()
+        }
     }
 }
