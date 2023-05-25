@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var isEditing = false
     @State private var selectedTab: String = "Home"
     @State private var isPresentingAddView = false
+    @State private var selectedImage: Image? = nil // Add a new state for selectedImage
+    
     
     var body: some View {
         NavigationView {
@@ -22,7 +24,9 @@ struct ContentView: View {
                     if selectedTab == "Home" || selectedTab == "Add" {
                         HomeView(isEditing: $isEditing)
                     } else if selectedTab == "Search" {
-                        SearchView()
+                        SearchView(onImageSelected: { image in
+                            selectedImage = image
+                        })
                     } else if selectedTab == "Profile" {
                         ProfileView(viewModel: loginViewModel)
                     }

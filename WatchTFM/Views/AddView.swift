@@ -46,7 +46,6 @@ struct AddView: View {
                 }
             }
             
-            
             Section(header: Text("Comienzo")) {
                 DatePicker("Hora de comienzo", selection: $startTime, displayedComponents: [.hourAndMinute])
             }
@@ -70,7 +69,7 @@ struct AddView: View {
                             .cornerRadius(10)
                     }
                     .disabled(!isFormValid)
-                    
+
                     Spacer()
                 }
                 .padding(.vertical)
@@ -78,7 +77,10 @@ struct AddView: View {
         }
         .navigationBarTitle("Detalles de la tarea")
         .sheet(isPresented: $showingImageSearcher) {
-            ImageSearcherView(selectedImage: $selectedImage)
+            ImageSearcherView(selectedImage: $selectedImage) { image in
+                selectedImage = image
+                showingImageSearcher = false
+            }
         }
     }
     
@@ -89,10 +91,11 @@ struct AddView: View {
 
 struct ImageSearcherView: View {
     @Binding var selectedImage: Image?
+    var onImageSelected: (Image) -> Void
     
     var body: some View {
         VStack {
-            SearchView()
+            SearchView(onImageSelected: onImageSelected)
         }
         .padding()
         .background(Color(.systemBackground))
