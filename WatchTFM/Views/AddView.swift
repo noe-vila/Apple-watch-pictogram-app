@@ -16,6 +16,8 @@ struct AddView: View {
     @State private var startTime = Date()
     @State private var endTime = Date().addingTimeInterval(60)
     @State private var isFormValid = false
+    @State private var showOverlapAlert: Bool = false
+    @State private var overlapedTask: String = ""
     var taskViewModel: TaskViewModel
     @Binding var isPresentingAddView: Bool
     @Binding var refreshHome: Bool
@@ -78,7 +80,12 @@ struct AddView: View {
                             .cornerRadius(10)
                     }
                     .disabled(!isFormValid)
-                    
+                    .alert(isPresented: $showOverlapAlert) {
+                        Alert(title: Text("Error añadiendo tarea"),
+                              message: Text("La tarea que intentas añadir se superpone en el tiempo con \(overlapedTask), por favor, modifica el tiempo para que no se superpongan y vuelve a guardar"),
+                              dismissButton: .default(Text("OK"))
+                        )
+                    }
                     Spacer()
                 }
                 .padding(.vertical)
@@ -113,9 +120,13 @@ struct AddView: View {
     
     private func performForm() {
         let task = Task(imageData: selectedImageData, name: taskName, startDate: startTime, endDate: endTime)
-        taskViewModel.addTask(task)
-        refreshHome.toggle()
-        isPresentingAddView = false
+        if let overlaped = taskViewModel.addTask(task) {
+            showOverlapAlert = true
+            overlapedTask = overlaped
+        } else {
+            refreshHome.toggle()
+            isPresentingAddView = false
+        }
     }
 }
 
