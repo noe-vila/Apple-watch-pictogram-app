@@ -23,9 +23,9 @@ struct LoginView: View {
             
             Toggle(biometricTypeText(), isOn: $isFaceId)
                 .padding()
+                .frame(width: 200)
             
             Button(viewModel.isFirstTimeLogin ? "Guardar" : "Acceder") {
-                
                 if viewModel.isFirstTimeLogin {
                     guard !viewModel.password.isEmpty else {
                         viewModel.error = LoginError(message: "Debe ingresar una contraseña mínimo la primera vez")
@@ -37,12 +37,15 @@ struct LoginView: View {
                 } else {
                     viewModel.isFirstTimeLogin ? viewModel.login() : viewModel.profileLogin()
                 }
+                UserDefaults.standard.set(isFaceId, forKey: "isFaceIdEnabled")
             }
+            .buttonStyle(.bordered)
             .padding()
             .alert(item: $viewModel.error) { error in
                 Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
             }
         }
+        .animation(.default, value: isFaceId)
     }
     
     private func authenticateWithFaceID() {
@@ -97,7 +100,6 @@ struct LoginView: View {
                         return "Usar Biometrics"
                     }
                 } else {
-                    // Fallback on earlier versions
                     return "Usar Biometrics"
                 }
             } else {

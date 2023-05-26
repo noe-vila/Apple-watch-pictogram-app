@@ -59,7 +59,7 @@ class LoginViewModel: ObservableObject {
                 password = ""
                 UserDefaults.standard.set(isProfileLoggedIn, forKey: "isProfileLoggedIn")
             } else {
-                error = LoginError(message: "Incorrect password")
+                error = LoginError(message: "Contraseña incorrecta")
             }
         }
     }

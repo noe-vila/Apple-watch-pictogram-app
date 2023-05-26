@@ -34,6 +34,8 @@ struct ContentView: View {
                             .onAppear {
                                 loginViewModel.profileLogout()
                             }
+                    } else {
+                        Spacer()
                     }
                     NavigationBarView(selectedTab: $selectedTab)
                         .opacity(isEditing ? 0.5 : 1.0)

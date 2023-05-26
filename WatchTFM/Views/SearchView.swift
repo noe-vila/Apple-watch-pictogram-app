@@ -14,10 +14,13 @@ struct SearchView: View {
     
     var body: some View {
         VStack {
+            
+            Spacer()
             ZStack {
                 if viewModel.searchResults.isEmpty {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.gray.opacity(0.2))
+                        .strokeBorder(Color.gray, lineWidth: 4)
+                        .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.gray.opacity(0.2)))
                         .frame(width: 250, height: 250)
                     Image(systemName: "photo")
                         .resizable()
@@ -48,40 +51,45 @@ struct SearchView: View {
                         }
                     }
                 }
-                VStack {
-                    Spacer()
-                    HStack {
-                        TextField("Buscar", text: $viewModel.searchText, onEditingChanged: { editing in
-                            isEditing = editing
-                        })
-                        .onSubmit({
-                            viewModel.performSearch()
-                        })
-                        .keyboardType(.default)
-                        .submitLabel(.done)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        Button(action: {
-                            viewModel.performSearch()
-                        }) {
-                            if viewModel.isSearching {
-                                ProgressView()
-                                    .frame(width: 20, height: 20)
-                            } else {
-                                Image(systemName: "magnifyingglass")
-                                    .font(.title2)
-                                    .frame(width: 20, height: 20)
-                            }
+            }
+            
+            Spacer()
+            VStack {
+                HStack {
+                    TextField("Buscar", text: $viewModel.searchText, onEditingChanged: { editing in
+                        isEditing = editing
+                    })
+                    .onSubmit({
+                        viewModel.performSearch()
+                    })
+                    .keyboardType(.default)
+                    .submitLabel(.done)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    Button(action: {
+                        hideKeyboard()
+                        viewModel.performSearch()
+                    }) {
+                        if viewModel.isSearching {
+                            ProgressView()
+                                .frame(width: 20, height: 20)
+                        } else {
+                            Image(systemName: "magnifyingglass")
+                                .font(.title2)
+                                .frame(width: 20, height: 20)
                         }
                     }
-                    .padding()
                 }
             }
         }
         .onTapGesture {
-            if isEditing {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
+            hideKeyboard()
         }
         .padding()
+    }
+    
+    private func hideKeyboard() {
+        if isEditing {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     }
 }
