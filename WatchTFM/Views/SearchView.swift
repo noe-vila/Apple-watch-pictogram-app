@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @StateObject private var viewModel = SearchViewModel()
+    @State var viewModel: SearchViewModel
     @State private var isEditing = false
     var onImageSelected: (PictogramResult) -> Void
     
