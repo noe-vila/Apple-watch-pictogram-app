@@ -35,8 +35,21 @@ class LoginViewModel: ObservableObject {
             password = ""
             UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
         } else {
-            error = LoginError(message: "Incorrect password")
+            error = LoginError(message: "Contraseña incorrecta")
         }
+    }
+    
+    func faceIDLogin() {
+        isLoggedIn = true
+        isFirstTimeLogin = false
+        UserDefaults.standard.set(true, forKey: "hasPassword")
+        UserDefaults.standard.set(password, forKey: "password")
+        UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
+    }
+    
+    func faceIDProfileLogin() {
+        isProfileLoggedIn = true
+        UserDefaults.standard.set(isLoggedIn, forKey: "isProfileLoggedIn")
     }
     
     func profileLogin() {
