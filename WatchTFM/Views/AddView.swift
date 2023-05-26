@@ -19,6 +19,7 @@ struct AddView: View {
     @State private var showOverlapAlert: Bool = false
     @State private var overlapedTask: String = ""
     var taskViewModel: TaskViewModel
+    @StateObject var searchViewModel = SearchViewModel()
     @Binding var isPresentingAddView: Bool
     @Binding var refreshHome: Bool
     
@@ -29,10 +30,18 @@ struct AddView: View {
                 TextField("Nombre de la tarea", text: $taskName)
                     .keyboardType(.default)
                     .submitLabel(.done)
+                    .onSubmit {
+                        searchViewModel.searchText = taskName
+                        searchViewModel.performSearch()
+                    }
             }
             
             Section(header: Text("Pictograma")) {
                 Button(action: {
+                    if !taskName.isEmpty {
+                        searchViewModel.searchText = taskName
+                        searchViewModel.performSearch()
+                    }
                     showingImageSearcher = true
                     self.endTextEditing()
                 }) {
@@ -105,7 +114,7 @@ struct AddView: View {
         })
         .navigationBarTitle("Detalles de la tarea")
         .sheet(isPresented: $showingImageSearcher) {
-            ImageSearcherView(selectedImage: $selectedImage) { pictogramResult in
+            ImageSearcherView(selectedImage: $selectedImage, searchViewModel: searchViewModel) { pictogramResult in
                 selectedImage = Image(uiImage: pictogramResult.image)
                 selectedImageURL = pictogramResult.imageURL
                 selectedImageData = pictogramResult.image.pngData() ?? Data()
@@ -132,11 +141,12 @@ struct AddView: View {
 
 struct ImageSearcherView: View {
     @Binding var selectedImage: Image?
+    @StateObject var searchViewModel: SearchViewModel
     var onImageSelected: (PictogramResult) -> Void
     
     var body: some View {
         VStack {
-            SearchView(onImageSelected: onImageSelected)
+            SearchView(viewModel: searchViewModel, onImageSelected: onImageSelected)
         }
         .padding()
         .background(Color(.systemBackground))

@@ -12,7 +12,8 @@ struct ProfileView: View {
     @State private var showLoginView = true
     @State private var showStatistics = false
     @StateObject var viewModel: LoginViewModel
-    let images = Array(1...61)
+    @StateObject var taskViewModel: TaskViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         if viewModel.isProfileLoggedIn  {
@@ -32,15 +33,24 @@ struct ProfileView: View {
                 
                 ScrollView {
                     LazyVGrid(columns: gridItems(), spacing: 20) {
-                        ForEach(images, id: \.self) { image in
+                        ForEach(taskViewModel.getAlphabeticalTaskItems(), id: \.self) { task in
                             Button(action: {
                                 showStatistics.toggle()
                             }) {
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 80, height: 80)
-                                    .cornerRadius(10)
+                                VStack {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .strokeBorder(Color.gray, lineWidth: 4)
+                                            .frame(width: 75, height: 75)
+                                            .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.white.opacity(0.8)))
+                                        Image(uiImage: UIImage(data: task.imageData) ?? UIImage())
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 50, height: 50)
+                                    }
+                                    Text(task.name)
+                                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                }
                             }
                             .sheet(isPresented: $showStatistics) {
                                 StatisticsView()

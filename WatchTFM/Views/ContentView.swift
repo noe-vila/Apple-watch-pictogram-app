@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var taskViewModel = TaskViewModel()
     @StateObject private var loginViewModel = LoginViewModel()
+    @StateObject private var searchViewModel = SearchViewModel()
     @State private var isEditing = false
     @State private var selectedTab: String = "Home"
     @State private var isPresentingAddView = false
@@ -26,11 +27,11 @@ struct ContentView: View {
                         HomeView(taskViewModel: taskViewModel, isEditing: $isEditing, refreshHome: $refreshHome)
                             .animation(.default, value: isEditing)
                     } else if selectedTab == "Search" {
-                        SearchView(onImageSelected: { pictogramResult in
+                        SearchView(viewModel: searchViewModel, onImageSelected: { pictogramResult in
                             selectedImage = pictogramResult.image
                         })
                     } else if selectedTab == "Profile" {
-                        ProfileView(viewModel: loginViewModel)
+                        ProfileView(viewModel: loginViewModel, taskViewModel: taskViewModel)
                             .onAppear {
                                 loginViewModel.profileLogout()
                             }
@@ -46,7 +47,9 @@ struct ContentView: View {
                 .sheet(isPresented: $isPresentingAddView, onDismiss: {
                     selectedTab = "Home"
                 }) {
-                    AddView(taskViewModel: taskViewModel, isPresentingAddView: $isPresentingAddView, refreshHome: $refreshHome)
+                    AddView(taskViewModel: taskViewModel,
+                            isPresentingAddView: $isPresentingAddView,
+                            refreshHome: $refreshHome)
                 }
                 .onChange(of: selectedTab) { newTab in
                     isPresentingAddView = newTab == "Add"
