@@ -13,10 +13,10 @@ struct TaskItemView: View {
     var body: some View {
         HStack {
             ZStack {
-                Circle()
+                RoundedRectangle(cornerRadius: 20)
                     .strokeBorder(Color.gray, lineWidth: 4)
                     .frame(width: 75, height: 75)
-                    .background(Circle().foregroundColor(Color.white.opacity(0.8)))
+                    .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.white.opacity(0.8)))
                 Image(uiImage: UIImage(data: task.imageData) ?? UIImage())
                     .resizable()
                     .scaledToFit()
@@ -24,9 +24,13 @@ struct TaskItemView: View {
             }
             Text(task.name)
             Spacer()
-            Text("\(formattedTime(task.startDate))")
-            Text(" - ")
-            Text("\(formattedTime(task.endDate))")
+            VStack {
+                Text("\(formattedTime(task.startDate))")
+                Text("\(formattedTime(task.endDate))")
+            }
+            
+            Image(systemName: "clock")
+                .frame(width: 20, height: 20)
         }
         .padding()
     }
