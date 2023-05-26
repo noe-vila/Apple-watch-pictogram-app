@@ -8,13 +8,13 @@
 import Foundation
 
 struct Task: Equatable, Codable, Hashable {
-    let imageURL: URL
+    let imageData: Data
     let name: String
     let startDate: Date
     let endDate: Date
     
-    init(imageURL: URL, name: String, startDate: Date, endDate: Date) {
-        self.imageURL = imageURL
+    init(imageData: Data, name: String, startDate: Date, endDate: Date) {
+        self.imageData = imageData
         self.name = name
         self.startDate = startDate
         self.endDate = endDate
@@ -22,7 +22,7 @@ struct Task: Equatable, Codable, Hashable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        imageURL = try container.decode(URL.self, forKey: .imageURL)
+        imageData = try container.decode(Data.self, forKey: .ImageData)
         name = try container.decode(String.self, forKey: .name)
         startDate = try container.decode(Date.self, forKey: .startDate)
         endDate = try container.decode(Date.self, forKey: .endDate)
@@ -30,14 +30,14 @@ struct Task: Equatable, Codable, Hashable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(imageURL, forKey: .imageURL)
+        try container.encode(imageData, forKey: .ImageData)
         try container.encode(name, forKey: .name)
         try container.encode(startDate, forKey: .startDate)
         try container.encode(endDate, forKey: .endDate)
     }
     
     private enum CodingKeys: String, CodingKey {
-        case imageURL
+        case ImageData
         case name
         case startDate
         case endDate

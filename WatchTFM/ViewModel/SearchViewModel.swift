@@ -8,6 +8,12 @@
 import Foundation
 import SwiftUI
 
+struct PictogramResult: Hashable {
+    let id: Int
+    let image: UIImage
+    let imageURL: String
+}
+
 class SearchViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var searchResults: [PictogramResult] = []
@@ -15,11 +21,6 @@ class SearchViewModel: ObservableObject {
     
     private struct Pictogram: Codable {
         let _id: Int
-    }
-    
-    struct PictogramResult: Hashable {
-        let id: Int
-        let image: UIImage
     }
     
     func performSearch() {
@@ -50,7 +51,7 @@ class SearchViewModel: ObservableObject {
                             return nil
                         }
                         
-                        let pictogramResult = PictogramResult(id: pictogram._id, image: image)
+                        let pictogramResult = PictogramResult(id: pictogram._id, image: image, imageURL: imageUrlString)
                         return pictogramResult
                     }
                     

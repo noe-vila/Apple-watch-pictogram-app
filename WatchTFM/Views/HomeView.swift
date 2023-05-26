@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject private var taskViewModel: TaskViewModel
+    @State var taskViewModel: TaskViewModel
     @State private var showInfo = false
     @Binding var isEditing: Bool
-
+    @Binding var refreshHome: Bool
+    
     var body: some View {
         ScrollView {
             LazyVStack {
