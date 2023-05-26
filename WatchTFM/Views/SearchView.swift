@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
     @State private var isEditing = false
-    var onImageSelected: (Image) -> Void
+    var onImageSelected: (PictogramResult) -> Void
     
     var body: some View {
         VStack {
@@ -39,7 +39,7 @@ struct SearchView: View {
                                             .frame(width: 250, height: 250)
                                             .clipped()
                                             .onTapGesture {
-                                                onImageSelected(Image(uiImage: pictogram.image))
+                                                onImageSelected(pictogram)
                                             }
                                     }
                                 }

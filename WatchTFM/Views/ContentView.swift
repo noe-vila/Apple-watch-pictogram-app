@@ -13,7 +13,8 @@ struct ContentView: View {
     @State private var isEditing = false
     @State private var selectedTab: String = "Home"
     @State private var isPresentingAddView = false
-    @State private var selectedImage: Image? = nil // Add a new state for selectedImage
+    @State private var selectedImage: UIImage? = nil
+    @State private var refreshHome: Bool = false
     
     
     var body: some View {
@@ -22,10 +23,10 @@ struct ContentView: View {
                 
                 VStack {
                     if selectedTab == "Home" || selectedTab == "Add" {
-                        HomeView(isEditing: $isEditing)
+                        HomeView(taskViewModel: taskViewModel, isEditing: $isEditing, refreshHome: $refreshHome)
                     } else if selectedTab == "Search" {
-                        SearchView(onImageSelected: { image in
-                            selectedImage = image
+                        SearchView(onImageSelected: { pictogramResult in
+                            selectedImage = pictogramResult.image
                         })
                     } else if selectedTab == "Profile" {
                         ProfileView(viewModel: loginViewModel)
@@ -42,7 +43,7 @@ struct ContentView: View {
                 .sheet(isPresented: $isPresentingAddView, onDismiss: {
                     selectedTab = "Home"
                 }) {
-                    AddView()
+                    AddView(taskViewModel: taskViewModel, isPresentingAddView: $isPresentingAddView, refreshHome: $refreshHome)
                 }
                 .onChange(of: selectedTab) { newTab in
                     isPresentingAddView = newTab == "Add"
