@@ -7,12 +7,25 @@
 		<key>WatchTFM Watch App.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>WatchTFM.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>DC3012312A1A69BD008B5CA3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DC3012412A1A69BF008B5CA3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

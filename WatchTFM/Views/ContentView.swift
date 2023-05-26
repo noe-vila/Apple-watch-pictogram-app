@@ -24,6 +24,7 @@ struct ContentView: View {
                 VStack {
                     if selectedTab == "Home" || selectedTab == "Add" {
                         HomeView(taskViewModel: taskViewModel, isEditing: $isEditing, refreshHome: $refreshHome)
+                            .animation(.default, value: isEditing)
                     } else if selectedTab == "Search" {
                         SearchView(onImageSelected: { pictogramResult in
                             selectedImage = pictogramResult.image

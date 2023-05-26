@@ -14,16 +14,27 @@ struct TaskItemView: View {
         HStack {
             ZStack {
                 Circle()
-                    .stroke(Color.gray, lineWidth: 2)
+                    .strokeBorder(Color.gray, lineWidth: 4)
                     .frame(width: 75, height: 75)
-                    .foregroundColor(Color.gray.opacity(0.2))
+                    .background(Circle().foregroundColor(Color.white.opacity(0.8)))
                 Image(uiImage: UIImage(data: task.imageData) ?? UIImage())
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
             }
             Text(task.name)
+            Spacer()
+            Text("\(formattedTime(task.startDate))")
+            Text(" - ")
+            Text("\(formattedTime(task.endDate))")
         }
         .padding()
     }
+    
+    private func formattedTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
+    }
+    
 }

@@ -54,6 +54,11 @@ struct SearchView: View {
                         TextField("Buscar", text: $viewModel.searchText, onEditingChanged: { editing in
                             isEditing = editing
                         })
+                        .onSubmit({
+                            viewModel.performSearch()
+                        })
+                        .keyboardType(.default)
+                        .submitLabel(.done)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         Button(action: {
                             viewModel.performSearch()

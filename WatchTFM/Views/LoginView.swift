@@ -21,7 +21,7 @@ struct LoginView: View {
                     .padding()
             }
             
-            Toggle("Usar Face ID", isOn: $isFaceId)
+            Toggle(biometricTypeText(), isOn: $isFaceId)
                 .padding()
             
             Button(viewModel.isFirstTimeLogin ? "Guardar" : "Acceder") {
@@ -81,4 +81,27 @@ struct LoginView: View {
         isFaceId = false
         UserDefaults.standard.set(false, forKey: "isFaceIdEnabled")
     }
+    
+    private func biometricTypeText() -> String {
+            let context = LAContext()
+            var error: NSError?
+            
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                if #available(iOS 11.0, *) {
+                    switch context.biometryType {
+                    case .faceID:
+                        return "Usar Face ID"
+                    case .touchID:
+                        return "Use Touch ID"
+                    default:
+                        return "Usar Biometrics"
+                    }
+                } else {
+                    // Fallback on earlier versions
+                    return "Usar Biometrics"
+                }
+            } else {
+                return "Dispositivo no soportado"
+            }
+        }
 }

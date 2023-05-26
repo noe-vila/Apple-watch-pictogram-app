@@ -14,22 +14,25 @@ struct AddView: View {
     @State private var selectedImageData: Data = Data()
     @State private var showingImageSearcher = false
     @State private var startTime = Date()
-    @State private var endTime = Date()
+    @State private var endTime = Date().addingTimeInterval(60)
     @State private var isFormValid = false
     var taskViewModel: TaskViewModel
     @Binding var isPresentingAddView: Bool
     @Binding var refreshHome: Bool
-
+    
     
     var body: some View {
         Form {
             Section(header: Text("Detalles de la tarea")) {
                 TextField("Nombre de la tarea", text: $taskName)
+                    .keyboardType(.default)
+                    .submitLabel(.done)
             }
             
             Section(header: Text("Pictograma")) {
                 Button(action: {
                     showingImageSearcher = true
+                    self.endTextEditing()
                 }) {
                     HStack {
                         Text("Buscar Pictograma")
@@ -126,5 +129,12 @@ struct ImageSearcherView: View {
         }
         .padding()
         .background(Color(.systemBackground))
+    }
+}
+
+extension View {
+    func endTextEditing() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                        to: nil, from: nil, for: nil)
     }
 }
