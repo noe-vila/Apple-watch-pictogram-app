@@ -20,28 +20,22 @@ struct HomeView: View {
                     HStack {
                         TaskItemView(task: task)
                             .opacity(isEditing ? 0.5 : 1.0)
-                        Spacer()
-
                         if isEditing {
                             Button(action: {
                                 guard let index = taskViewModel.getTaskIndex(task: task) else { return }
-                                withAnimation {
-                                    taskViewModel.removeTask(index: index)
-                                }
+                                taskViewModel.removeTask(index: index)
+                                refreshHome.toggle()
                             }) {
                                 Image(systemName: "trash")
                                     .foregroundColor(.red)
                             }
                             .padding()
                             .frame(height: 50)
+                            .transition(.scale)
                         }
                     }
                 }
-                .onDelete { indexSet in
-                    indexSet.forEach { index in
-                        taskViewModel.removeTask(index: index)
-                    }
-                }
+                .animation(.default, value: refreshHome)
             }
         }
         .padding(.bottom, 20)
