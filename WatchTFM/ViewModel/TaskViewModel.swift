@@ -23,13 +23,19 @@ class TaskViewModel: ObservableObject {
         return taskItems
     }
     
-    func addTask(_ task: Task) {
+    func addTask(_ task: Task) -> String? {
+        for existingTask in taskItems {
+            if task.startDate <= existingTask.endDate && task.endDate >= existingTask.startDate {
+                return existingTask.name
+            }
+        }
         if let insertIndex = taskItems.firstIndex(where: { $0.startDate > task.startDate }) {
             taskItems.insert(task, at: insertIndex)
         } else {
             taskItems.append(task)
         }
         saveTasks()
+        return nil
     }
     
     func getTaskIndex(task: Task) -> Int? {
