@@ -15,34 +15,51 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
-            if !isAuthenticationSuccessful && !isFaceId || viewModel.isFirstTimeLogin {
+            
+            if !viewModel.isLoggedIn {
+                TextField("Correo electrónico", text: $viewModel.email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .keyboardType(.emailAddress)
+                    .autocapitalization(.none)
+            }
+            
+            if !viewModel.isLoggedIn || !viewModel.isProfileLoggedIn && !isFaceId {
                 SecureField("Contraseña", text: $viewModel.password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
             }
             
-            Toggle(biometricTypeText(), isOn: $isFaceId)
-                .padding()
-                .frame(width: 200)
+            if viewModel.isLoggedIn{
+                Toggle(biometricTypeText(), isOn: $isFaceId)
+                    .padding()
+                    .frame(width: 200)
+            }
             
-            Button(viewModel.isFirstTimeLogin ? "Guardar" : "Acceder") {
-                if viewModel.isFirstTimeLogin {
-                    guard !viewModel.password.isEmpty else {
-                        viewModel.error = LoginError(message: "Debe ingresar una contraseña mínimo la primera vez")
-                        return
+            HStack {
+                Button(viewModel.isLoggedIn ? "Acceder" : "Login") {
+                    if isFaceId {
+                        authenticateWithFaceID()
+                    } else {
+                        viewModel.isLoggedIn ? viewModel.profileLogin() : viewModel.firebaseLogin()
+                    }
+                    UserDefaults.standard.set(isFaceId, forKey: "isFaceIdEnabled")
+                }
+                .buttonStyle(.bordered)
+                .padding()
+                .alert(item: $viewModel.error) { error in
+                    Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
+                }
+                if !viewModel.isLoggedIn{
+                    Button("Registrarse") {
+                        viewModel.firebaseSignup()
+                    }
+                    .buttonStyle(.bordered)
+                    .padding()
+                    .alert(item: $viewModel.error) { error in
+                        Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
                     }
                 }
-                if isFaceId {
-                    authenticateWithFaceID()
-                } else {
-                    viewModel.isFirstTimeLogin ? viewModel.login() : viewModel.profileLogin()
-                }
-                UserDefaults.standard.set(isFaceId, forKey: "isFaceIdEnabled")
-            }
-            .buttonStyle(.bordered)
-            .padding()
-            .alert(item: $viewModel.error) { error in
-                Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
             }
         }
         .animation(.default, value: isFaceId)
@@ -64,11 +81,7 @@ struct LoginView: View {
                     if success {
                         isAuthenticationSuccessful = true
                         UserDefaults.standard.set(true, forKey: "isFaceIdEnabled")
-                        if viewModel.isFirstTimeLogin {
-                            viewModel.faceIDLogin()
-                        } else {
-                            viewModel.faceIDProfileLogin()
-                        }
+                        viewModel.faceIDProfileLogin()
                     } else {
                         fallbackToPassword()
                     }

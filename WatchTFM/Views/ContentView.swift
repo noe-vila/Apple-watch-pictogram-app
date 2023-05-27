@@ -21,7 +21,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             if loginViewModel.isLoggedIn {
-                
                 VStack {
                     if selectedTab == "Home" || selectedTab == "Add" {
                         HomeView(taskViewModel: taskViewModel, isEditing: $isEditing, refreshHome: $refreshHome)

@@ -15,21 +15,32 @@ struct ProfileView: View {
     @StateObject var taskViewModel: TaskViewModel
     @Environment(\.colorScheme) var colorScheme
     
+    @State private var isShowingStatisticsIcon = false
+    
     var body: some View {
-        if viewModel.isProfileLoggedIn  {
+        if viewModel.isLoggedIn  {
             VStack(spacing: 8) {
                 HStack {
-                    Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(.purple)
+                    if isShowingStatisticsIcon {Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.purple)
+                    }
                     
                     Text("Estadísticas")
                         .font(.headline)
+                        .frame(height: 30)
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation {
+                            isShowingStatisticsIcon = true
+                        }
+                    }
+                }
                 
                 ScrollView {
                     LazyVGrid(columns: gridItems(), spacing: 20) {
@@ -61,11 +72,16 @@ struct ProfileView: View {
                 }
                 
             }
-            .navigationBarItems(trailing: Button(action: {
-                showSettings.toggle()
+            .navigationBarItems(trailing:
+                                    Button(action: {
+                withAnimation{
+                    showSettings.toggle()
+                }
             }) {
                 Image(systemName: "gear")
-            })
+                    .rotationEffect(.degrees(showSettings ? 180 : 0))
+            }
+            )
             .sheet(isPresented: $showSettings) {
                 SettingsView(showSettings: $showSettings, viewModel: viewModel)
             }

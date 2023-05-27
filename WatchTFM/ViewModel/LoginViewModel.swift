@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Firebase
 
 struct LoginError: Identifiable {
     let id = UUID()
@@ -16,35 +17,80 @@ struct LoginError: Identifiable {
 class LoginViewModel: ObservableObject {
     @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
     @Published var isProfileLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isProfileLoggedIn")
-    @Published var isFirstTimeLogin: Bool = !UserDefaults.standard.bool(forKey: "hasPassword")
+    @Published var email: String = ""
     @Published var password: String = ""
     @Published var error: LoginError? = nil
+    var user: User?
     
-    func login() {
-        guard let savedPassword = UserDefaults.standard.string(forKey: "password") else {
+    
+    init() {
+        if let authUser = Auth.auth().currentUser {
             isLoggedIn = true
-            isFirstTimeLogin = false
-            UserDefaults.standard.set(true, forKey: "hasPassword")
-            UserDefaults.standard.set(password, forKey: "password")
-            UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
-            password = ""
-            return
-        }
-        if password == savedPassword {
-            isLoggedIn = true
-            password = ""
-            UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
-        } else {
-            error = LoginError(message: "Contraseña incorrecta")
+            isProfileLoggedIn = false
+            user = authUser
         }
     }
     
-    func faceIDLogin() {
+    func firebaseLogin() {
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                self.error = LoginError(message: error.localizedDescription)
+            } else {
+                self.handleSuccessfulLogin()
+            }
+        }
+    }
+
+    func firebaseSignup() {
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                self.error = LoginError(message: error.localizedDescription)
+            } else {
+                self.handleSuccessfulLogin()
+            }
+        }
+    }
+
+    private func handleSuccessfulLogin() {
         isLoggedIn = true
-        isFirstTimeLogin = false
-        UserDefaults.standard.set(true, forKey: "hasPassword")
+        isProfileLoggedIn = false
         UserDefaults.standard.set(password, forKey: "password")
         UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
+        password = ""
+        user = Auth.auth().currentUser
+    }
+    
+    func firebaseLogout() {
+        do {
+            try Auth.auth().signOut()
+            isLoggedIn = false
+            isProfileLoggedIn = false
+            UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
+            UserDefaults.standard.set(isProfileLoggedIn, forKey: "isProfileLoggedIn")
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
+    func changePassword(newPassword: String) {
+        if let user = Auth.auth().currentUser {
+            user.updatePassword(to: newPassword) { [weak self] error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    self.error = LoginError(message: error.localizedDescription)
+                } else {
+                    UserDefaults.standard.set(true, forKey: "hasPassword")
+                    UserDefaults.standard.set(newPassword, forKey: "password")
+                    self.password = ""
+                    self.error = nil
+                }
+            }
+        }
     }
     
     func faceIDProfileLogin() {
@@ -69,17 +115,5 @@ class LoginViewModel: ObservableObject {
         password = ""
         UserDefaults.standard.set(isProfileLoggedIn, forKey: "isProfileLoggedIn")
         
-    }
-    
-    func logout() {
-        isLoggedIn = false
-        isFirstTimeLogin = false
-        password = ""
-        UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
-        UserDefaults.standard.set(false, forKey: "hasPassword")
-    }
-    
-    func changePassword(newPassword: String) {
-        UserDefaults.standard.set(newPassword, forKey: "password")
     }
 }
