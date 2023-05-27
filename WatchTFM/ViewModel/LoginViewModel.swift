@@ -71,6 +71,7 @@ class LoginViewModel: ObservableObject {
             isProfileLoggedIn = false
             UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
             UserDefaults.standard.set(isProfileLoggedIn, forKey: "isProfileLoggedIn")
+            UserDefaults.standard.set(false, forKey: "isFaceIdEnabled")
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }

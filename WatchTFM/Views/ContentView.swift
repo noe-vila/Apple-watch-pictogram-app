@@ -34,6 +34,9 @@ struct ContentView: View {
                             .onAppear {
                                 loginViewModel.profileLogout()
                             }
+                            .onDisappear {
+                                selectedTab = "Home"
+                            }
                     } else {
                         Spacer()
                     }
