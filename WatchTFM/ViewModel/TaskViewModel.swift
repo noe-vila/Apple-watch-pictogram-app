@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import WatchConnectivity
+
 
 class TaskViewModel: ObservableObject {
     @Published private var taskItems: [Task] = []
@@ -44,6 +46,28 @@ class TaskViewModel: ObservableObject {
     
     func getTaskIndex(task: Task) -> Int? {
         return taskItems.firstIndex { $0 == task }
+    }
+    
+    func getCurrentTask() -> Task? {
+        let currentDate = Date()
+        return taskItems.first(where: { $0.startDate <= currentDate && $0.endDate >= currentDate })
+    }
+    
+    func sendCurrentTaskToWatch() {
+        guard let currentTask = getCurrentTask() else {
+            return
+        }
+        let session = WCSession.default
+        if session.isReachable {
+            do {
+                let encodedTask = try JSONEncoder().encode(currentTask)
+                session.sendMessageData(encodedTask, replyHandler: nil, errorHandler: { error in
+                    print("Error sending task to watch: \(error)")
+                })
+            } catch {
+                print("Error encoding task: \(error)")
+            }
+        }
     }
     
     func removeTask(index: Int) {

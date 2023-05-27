@@ -46,6 +46,7 @@ struct ContentView: View {
                 .navigationBarHidden(false)
                 .sheet(isPresented: $isPresentingAddView, onDismiss: {
                     selectedTab = "Home"
+                    taskViewModel.sendCurrentTaskToWatch()
                 }) {
                     AddView(taskViewModel: taskViewModel,
                             isPresentingAddView: $isPresentingAddView,
