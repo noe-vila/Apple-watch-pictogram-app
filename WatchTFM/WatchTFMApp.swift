@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import WatchConnectivity
 
 @main
 struct WatchTFMApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

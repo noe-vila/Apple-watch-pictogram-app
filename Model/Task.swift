@@ -13,6 +13,13 @@ struct Task: Equatable, Codable, Hashable {
     let startDate: Date
     let endDate: Date
     
+    init() {
+        self.imageData = Data()
+        self.name = ""
+        self.startDate = Date()
+        self.endDate = Date()
+    }
+    
     init(imageData: Data, name: String, startDate: Date, endDate: Date) {
         self.imageData = imageData
         self.name = name
