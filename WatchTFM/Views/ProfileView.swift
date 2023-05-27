@@ -18,7 +18,7 @@ struct ProfileView: View {
     @State private var isShowingStatisticsIcon = false
     
     var body: some View {
-        if viewModel.isLoggedIn  {
+        if viewModel.isProfileLoggedIn  {
             VStack(spacing: 8) {
                 HStack {
                     if isShowingStatisticsIcon {Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")

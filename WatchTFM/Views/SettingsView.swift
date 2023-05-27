@@ -14,6 +14,7 @@ struct SettingsView: View {
     @Binding var showSettings: Bool
     @State private var changedPassword = false
     @State private var showCheckmark = false
+    @State private var hideText = false
     let viewModel: LoginViewModel
     
     var body: some View {
@@ -75,22 +76,21 @@ struct SettingsView: View {
                 }
             }) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: showCheckmark ? 100 : 10)
+                    RoundedRectangle(cornerRadius: showCheckmark ? 100 : 3)
                         .foregroundColor(showCheckmark ? Color.green : Color.gray)
                         .frame(width: showCheckmark ? 40 : 200, height: 40)
-                    HStack(spacing: 6) {
                         if !showCheckmark {
                             Text("Cerrar sesión")
                                 .foregroundColor(.white)
                                 .font(.system(size: 20))
+                        } else {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 20))
+                                .foregroundColor(.white)
                         }
-                        Image(systemName: showCheckmark ? "checkmark" : "xmark.circle")
-                            .font(.system(size: 20))
-                            .foregroundColor(.white)
-                    }
-                    .padding(.all)
-                    .animation(.default, value: showCheckmark)
                 }
+                .padding(.all)
+                .animation(.default, value: showCheckmark)
             }
             .padding(.bottom)
         }
