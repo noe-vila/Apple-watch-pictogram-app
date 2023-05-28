@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
 import WatchConnectivity
 
 @main
 struct WatchTFM_Watch_AppApp: App {
+    init() {
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {

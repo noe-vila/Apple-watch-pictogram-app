@@ -26,6 +26,10 @@ class TaskViewModel: ObservableObject {
         return taskItems.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
     }
     
+    func getTotalTasks() -> Int {
+        return taskItems.count
+    }
+    
     func addTask(_ task: Task) -> String? {
         for existingTask in taskItems {
             if task.startDate <= existingTask.endDate && task.endDate >= existingTask.startDate {

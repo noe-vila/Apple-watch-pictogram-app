@@ -27,6 +27,8 @@
 		DC57A4092A23AC5000355B10 /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC57A4072A23AC5000355B10 /* TaskViewModel.swift */; };
 		DC57A40B2A23AC6500355B10 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC57A40A2A23AC6500355B10 /* LoginViewModel.swift */; };
 		DC57A40C2A23AC6500355B10 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC57A40A2A23AC6500355B10 /* LoginViewModel.swift */; };
+		DC68C5722A23CBC600B3804B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC68C5712A23CBC600B3804B /* GoogleService-Info.plist */; };
+		DC7D9F412A23B2F200558A44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7D9F402A23B2F200558A44 /* LoginView.swift */; };
 		DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */; };
 		DC96DD1F2A1D2F3A00DA6A13 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */; };
 		DC96DD282A1D46E000DA6A13 /* TaskItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */; };
@@ -50,7 +52,6 @@
 		DCEBD9782A238BAC00ED16BA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD9772A238BAC00ED16BA /* FirebaseAnalytics */; };
 		DCEBD97A2A238BAC00ED16BA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD9792A238BAC00ED16BA /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		DCEBD97C2A238BAC00ED16BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD97B2A238BAC00ED16BA /* FirebaseAuth */; };
-		DCEBD9822A238BDD00ED16BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCEBD9812A238BDD00ED16BA /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,8 @@
 		DC4731952A2201D800A86DF0 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		DC57A4072A23AC5000355B10 /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
 		DC57A40A2A23AC6500355B10 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		DC68C5712A23CBC600B3804B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DC7D9F402A23B2F200558A44 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 		DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemView.swift; sourceTree = "<group>"; };
@@ -110,7 +113,6 @@
 		DCC033D32A21F12100797A52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCC033D52A21F2B200797A52 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		DCC033D72A21F45A00797A52 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		DCEBD9812A238BDD00ED16BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,7 +193,7 @@
 		DC3012462A1A69BF008B5CA3 /* WatchTFM Watch App */ = {
 			isa = PBXGroup;
 			children = (
-				DCEBD9812A238BDD00ED16BA /* GoogleService-Info.plist */,
+				DC68C5712A23CBC600B3804B /* GoogleService-Info.plist */,
 				DC30125C2A1A6B38008B5CA3 /* WatchTFM Watch App.entitlements */,
 				DC3012472A1A69BF008B5CA3 /* WatchTFMApp.swift */,
 				DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */,
@@ -245,6 +247,7 @@
 			children = (
 				DC3012492A1A69BF008B5CA3 /* ContentView.swift */,
 				DC4731952A2201D800A86DF0 /* TaskView.swift */,
+				DC7D9F402A23B2F200558A44 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -396,7 +399,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCEBD9822A238BDD00ED16BA /* GoogleService-Info.plist in Resources */,
+				DC68C5722A23CBC600B3804B /* GoogleService-Info.plist in Resources */,
 				DC30124F2A1A69C0008B5CA3 /* Preview Assets.xcassets in Resources */,
 				DC30124C2A1A69C0008B5CA3 /* Assets.xcassets in Resources */,
 			);
@@ -436,6 +439,7 @@
 				DC30124A2A1A69BF008B5CA3 /* ContentView.swift in Sources */,
 				DC57A4092A23AC5000355B10 /* TaskViewModel.swift in Sources */,
 				DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */,
+				DC7D9F412A23B2F200558A44 /* LoginView.swift in Sources */,
 				DCC033D92A21F45A00797A52 /* Task.swift in Sources */,
 				DC57A40C2A23AC6500355B10 /* LoginViewModel.swift in Sources */,
 				DC4731962A2201D800A86DF0 /* TaskView.swift in Sources */,

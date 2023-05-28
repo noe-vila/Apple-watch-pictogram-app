@@ -3,4 +3,118 @@
    uuid = "5572089F-F514-40CE-9F6A-74E20C360337"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7C93BEB9-2708-480A-91C8-57D9AB59F525"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewModels/LoginViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "firebaseLogin()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7C93BEB9-2708-480A-91C8-57D9AB59F525 - bd2044389a7db6b9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WatchTFM_Watch_App.LoginViewModel.firebaseLogin() -&gt; ()"
+                  moduleName = "WatchTFM Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noe/Proyectos/WatchTFM/ViewModels/LoginViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "7C93BEB9-2708-480A-91C8-57D9AB59F525 - c41f8811696e0f93"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in WatchTFM_Watch_App.LoginViewModel.firebaseLogin() -&gt; ()"
+                  moduleName = "WatchTFM Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noe/Proyectos/WatchTFM/ViewModels/LoginViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "120">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "28DFA787-53B7-4C3B-9D81-313C2B5FCEEB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewModels/LoginViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "handleSuccessfulLogin()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "97BF1493-3C65-40B6-8507-D02528131708"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ViewModels/TaskViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "loadTasks()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "97BF1493-3C65-40B6-8507-D02528131708 - 4cfd53f4bd3b9b24"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.FIRDataSnapshot) -&gt; () in WatchTFM_Watch_App.TaskViewModel.loadTasks() -&gt; ()"
+                  moduleName = "WatchTFM Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noe/Proyectos/WatchTFM/ViewModels/TaskViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "185"
+                  endingLineNumber = "185"
+                  offsetFromSymbolStart = "856">
+               </Location>
+               <Location
+                  uuid = "97BF1493-3C65-40B6-8507-D02528131708 - 4cfd53f4bd3b9b24"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.FIRDataSnapshot) -&gt; () in WatchTFM_Watch_App.TaskViewModel.loadTasks() -&gt; ()"
+                  moduleName = "WatchTFM Watch App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noe/Proyectos/WatchTFM/ViewModels/TaskViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "185"
+                  endingLineNumber = "185"
+                  offsetFromSymbolStart = "2840">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
