@@ -38,8 +38,8 @@ struct HomeView: View {
                     }
                 }
             }
+            .animation(.default, value: refreshHome)
         }
-        .animation(.default, value: refreshHome)
         .padding(.bottom, 20)
         .navigationBarItems(trailing: Button(action: {
             isEditing.toggle()

@@ -54,7 +54,7 @@ struct ProfileView: View {
                                             .strokeBorder(Color.gray, lineWidth: 4)
                                             .frame(width: 75, height: 75)
                                             .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.white.opacity(0.8)))
-                                        Image(uiImage: UIImage(data: task.imageData) ?? UIImage())
+                                        Image(uiImage: UIImage(data: Data(base64Encoded: task.imageData) ?? Data()) ?? UIImage())
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 50, height: 50)

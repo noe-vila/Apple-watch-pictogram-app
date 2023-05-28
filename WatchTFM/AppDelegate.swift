@@ -8,8 +8,7 @@
 import UIKit
 import WatchConnectivity
 import SwiftUI
-import FirebaseCore
-import FirebaseAuth
+import Firebase
 
 class AppDelegate: NSObject, UIApplicationDelegate, WCSessionDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -21,6 +20,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, WCSessionDelegate {
         }
         return true
     }
+    
 
     // MARK: - WCSessionDelegate
 
