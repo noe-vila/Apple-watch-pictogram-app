@@ -11,18 +11,13 @@ struct TaskView: View {
     var task: Task
     
     var body: some View {
-        
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .strokeBorder(Color.gray, lineWidth: 4)
-                .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.white.opacity(0.8)))
-            VStack {
-                Image(uiImage: UIImage(data: task.imageData) ?? UIImage())
-                    .resizable()
-                    .scaledToFit()
-                Text(task.name)}
+        VStack {
+            Image(uiImage: UIImage(data: Data(base64Encoded: task.imageData) ?? Data()) ?? UIImage())
+                .resizable()
+                .scaledToFit()
+            Text(task.name)
         }
-        .scenePadding(.all)
+        .frame(width: .infinity, height: .infinity)
+        .edgesIgnoringSafeArea(.all)
     }
-    
 }

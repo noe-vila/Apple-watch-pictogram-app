@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Firebase
-import FirebaseFirestore
+import FirebaseDatabase
 import WatchConnectivity
 
 
@@ -32,13 +32,44 @@ class TaskViewModel: ObservableObject {
                 return existingTask.name
             }
         }
+        
         if let insertIndex = taskItems.firstIndex(where: { $0.startDate > task.startDate }) {
             taskItems.insert(task, at: insertIndex)
         } else {
             taskItems.append(task)
         }
-        saveTasks()
+        
+        saveTask(task)
         return nil
+    }
+
+    private func saveTask(_ task: Task) {
+        let db = Database.database().reference()
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("User not authenticated.")
+            return
+        }
+        
+        let taskRef = db.child("users").child(userId).child("taskItems").childByAutoId()
+        let imageDataString = task.imageData
+        let name = task.name
+        let startDate = task.startDate.timeIntervalSince1970
+        let endDate = task.endDate.timeIntervalSince1970
+        
+        let taskData: [String: Any] = [
+            "imageData": imageDataString,
+            "name": name,
+            "startDate": startDate,
+            "endDate": endDate
+        ]
+        
+        taskRef.setValue(taskData) { (error, _) in
+            if let error = error {
+                print("Error saving task: \(error)")
+            } else {
+                print("Task saved successfully.")
+            }
+        }
     }
     
     func getTaskIndex(task: Task) -> Int? {
@@ -68,59 +99,90 @@ class TaskViewModel: ObservableObject {
     }
     
     func removeTask(index: Int) {
-        taskItems.remove(at: index)
-        saveTasks()
+        let task = taskItems[index]
+        let db = Database.database().reference()
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("User not authenticated.")
+            return
+        }
+        let taskRef = db.child("users").child(userId).child("taskItems").child(task.id)
+        taskRef.removeValue { (error, _) in
+            if let error = error {
+                print("Error removing task with ID \(task.id): \(error)")
+            } else {
+                self.taskItems.remove(at: index)
+                print("Task with ID \(task.id) removed successfully.")
+            }
+        }
     }
     
     private func saveTasks() {
-        let db = Firestore.firestore()
+        let db = Database.database().reference()
         guard let userId = Auth.auth().currentUser?.uid else {
             print("User not authenticated.")
             return
         }
         
-        do {
-            let data = try JSONEncoder().encode(taskItems)
-            let taskItemsRef = db.collection("users").document(userId).collection("taskItems")
-            let batch = db.batch()
-            let taskItemsDoc = taskItemsRef.document("tasks")
-            batch.setData(["data": data], forDocument: taskItemsDoc)
-            batch.commit { error in
+        for (index, task) in taskItems.enumerated() {
+            let taskRef = db.child("users").child(userId).child("taskItems").child(task.id)
+            let imageDataString = task.imageData
+            let name = task.name
+            let startDate = task.startDate.timeIntervalSince1970
+            let endDate = task.endDate.timeIntervalSince1970
+            
+            let taskData: [String: Any] = [
+                "imageData": imageDataString,
+                "name": name,
+                "startDate": startDate,
+                "endDate": endDate
+            ]
+            
+            taskRef.setValue(taskData) { (error, _) in
                 if let error = error {
-                    print("Error saving tasks: \(error)")
+                    print("Error saving task at index \(index): \(error)")
                 } else {
-                    print("Tasks saved successfully.")
+                    print("Task at index \(index) saved successfully.")
                 }
             }
-        } catch {
-            print("Error encoding tasks: \(error)")
         }
     }
     
+    
     func loadTasks() {
-        let db = Firestore.firestore()
+        let db = Database.database().reference()
         guard let userId = Auth.auth().currentUser?.uid else {
             print("User not authenticated.")
             return
         }
         
-        let taskItemsRef = db.collection("users").document(userId).collection("taskItems").document("tasks")
-        taskItemsRef.getDocument { snapshot, error in
-            if let error = error {
-                print("Error loading tasks: \(error)")
+        let taskItemsRef = db.child("users").child(userId).child("taskItems")
+        taskItemsRef.observeSingleEvent(of: .value) { snapshot in
+            guard let tasksSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
                 return
             }
             
-            guard let snapshotData = snapshot?.data(),
-                  let jsonData = snapshotData["data"] as? Data else {
-                return
+            var loadedTasks: [Task] = []
+            
+            for taskSnapshot in tasksSnapshot {
+                guard let taskData = taskSnapshot.value as? [String: Any],
+                      let imageDataString = taskData["imageData"] as? String,
+                      let imageData = Data(base64Encoded: imageDataString),
+                      let name = taskData["name"] as? String,
+                      let startDateTimestamp = taskData["startDate"] as? TimeInterval,
+                      let endDateTimestamp = taskData["endDate"] as? TimeInterval else {
+                    print("Invalid task data for task with ID: \(taskSnapshot.key)")
+                    continue
+                }
+                
+                let startDate = Date(timeIntervalSince1970: startDateTimestamp)
+                let endDate = Date(timeIntervalSince1970: endDateTimestamp)
+                
+                let loadedTask = Task(id: taskSnapshot.key, imageData: imageData, name: name, startDate: startDate, endDate: endDate)
+                loadedTasks.append(loadedTask)
             }
             
-            do {
-                self.taskItems = try JSONDecoder().decode([Task].self, from: jsonData)
-            } catch {
-                print("Error decoding tasks: \(error)")
-            }
+            self.taskItems = loadedTasks
         }
     }
+    
 }
