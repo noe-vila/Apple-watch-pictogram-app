@@ -20,6 +20,7 @@ struct WatchTFM_Watch_AppApp: App {
             ContentView().onAppear {
                 WatchSessionManager.shared.startSession()
             }
+            .edgesIgnoringSafeArea(.all)
         }
     }
 }

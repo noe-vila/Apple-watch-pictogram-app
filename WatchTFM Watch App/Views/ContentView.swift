@@ -14,8 +14,7 @@ struct ContentView: View {
     @State private var tasknumber = -1
     
     var body: some View {
-        NavigationView {
-            if loginViewModel.isLoggedIn {
+            if !loginViewModel.isLoggedIn {
                 VStack {
                     Text("LoggedIn")
                     Text("\(tasknumber)")
@@ -33,7 +32,6 @@ struct ContentView: View {
             } else {
                 LoginView(viewModel: loginViewModel)
             }
-        }
     }
 }
 
