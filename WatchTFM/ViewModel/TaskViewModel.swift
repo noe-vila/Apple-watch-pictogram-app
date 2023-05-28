@@ -6,16 +6,13 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 import WatchConnectivity
 
 
 class TaskViewModel: ObservableObject {
     @Published private var taskItems: [Task] = []
-    
-    private var fileURL: URL {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return documentsDirectory.appendingPathComponent("tasks.json")
-    }
     
     init() {
         loadTasks()
@@ -76,20 +73,54 @@ class TaskViewModel: ObservableObject {
     }
     
     private func saveTasks() {
+        let db = Firestore.firestore()
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("User not authenticated.")
+            return
+        }
+        
         do {
             let data = try JSONEncoder().encode(taskItems)
-            try data.write(to: fileURL)
+            let taskItemsRef = db.collection("users").document(userId).collection("taskItems")
+            let batch = db.batch()
+            let taskItemsDoc = taskItemsRef.document("tasks")
+            batch.setData(["data": data], forDocument: taskItemsDoc)
+            batch.commit { error in
+                if let error = error {
+                    print("Error saving tasks: \(error)")
+                } else {
+                    print("Tasks saved successfully.")
+                }
+            }
         } catch {
-            print("Error saving tasks: \(error)")
+            print("Error encoding tasks: \(error)")
         }
     }
     
-    private func loadTasks() {
-        do {
-            let data = try Data(contentsOf: fileURL)
-            taskItems = try JSONDecoder().decode([Task].self, from: data)
-        } catch {
-            print("Error loading tasks: \(error)")
+    func loadTasks() {
+        let db = Firestore.firestore()
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("User not authenticated.")
+            return
+        }
+        
+        let taskItemsRef = db.collection("users").document(userId).collection("taskItems").document("tasks")
+        taskItemsRef.getDocument { snapshot, error in
+            if let error = error {
+                print("Error loading tasks: \(error)")
+                return
+            }
+            
+            guard let snapshotData = snapshot?.data(),
+                  let jsonData = snapshotData["data"] as? Data else {
+                return
+            }
+            
+            do {
+                self.taskItems = try JSONDecoder().decode([Task].self, from: jsonData)
+            } catch {
+                print("Error decoding tasks: \(error)")
+            }
         }
     }
 }

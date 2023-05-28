@@ -16,6 +16,7 @@ struct AddView: View {
     @State private var zeroTime = Calendar.current.startOfDay(for: .now)
     @State private var startTime = Calendar.current.startOfDay(for: .now)
     @State private var endTime = Calendar.current.startOfDay(for: .now)
+    @State private var isStartTimeModified = false
     @State private var isFormValid = false
     @State private var showOverlapAlert: Bool = false
     @State private var overlapedTask: String = ""
@@ -113,6 +114,10 @@ struct AddView: View {
             validateForm()
         })
         .onChange(of: startTime, perform: { _ in
+            if !isStartTimeModified {
+                isStartTimeModified = true
+                endTime = startTime // Set endDate to be the same as startDate
+            }
             validateForm()
         })
         .onChange(of: endTime, perform: { _ in

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var taskViewModel: TaskViewModel
+    @ObservedObject var taskViewModel: TaskViewModel
     @State private var showInfo = false
     @Binding var isEditing: Bool
     @Binding var refreshHome: Bool
@@ -24,8 +24,9 @@ struct HomeView: View {
                         if isEditing {
                             Button(action: {
                                 guard let index = taskViewModel.getTaskIndex(task: task) else { return }
-                                taskViewModel.removeTask(index: index)
-                                refreshHome.toggle()
+                                withAnimation {
+                                    taskViewModel.removeTask(index: index)
+                                }
                             }) {
                                 Image(systemName: "trash")
                                     .foregroundColor(.red)
@@ -36,9 +37,9 @@ struct HomeView: View {
                         }
                     }
                 }
-                .animation(.default, value: refreshHome)
             }
         }
+        .animation(.default, value: refreshHome)
         .padding(.bottom, 20)
         .navigationBarItems(trailing: Button(action: {
             isEditing.toggle()
@@ -52,10 +53,13 @@ struct HomeView: View {
             showInfo.toggle()
         }) {
             Image(systemName: "info.circle.fill")
-            .foregroundColor(Color.primary)
+                .foregroundColor(Color.primary)
         })
         .sheet(isPresented: $showInfo) {
             AuthorView()
+        }
+        .onReceive(taskViewModel.objectWillChange) { _ in
+            refreshHome.toggle()
         }
     }
 }
