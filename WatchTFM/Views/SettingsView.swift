@@ -21,13 +21,13 @@ struct SettingsView: View {
         VStack {
             HStack (spacing: 20) {
                 if isPasswordHidden {
-                    SecureField("Nueva contraseña", text: $newPassword)
-                        .font(.system(size: 20))
+                    SecureField("Nueva contraseña".uppercased(), text: $newPassword)
+                        .font(.headline)
                         .padding()
                         .cornerRadius(8)
                 } else {
-                    TextField("Nueva contraseña", text: $newPassword)
-                        .font(.system(size: 20))
+                    TextField("Nueva contraseña".uppercased(), text: $newPassword)
+                        .font(.headline)
                         .padding()
                         .cornerRadius(8)
                 }
@@ -78,9 +78,9 @@ struct SettingsView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: showCheckmark ? 100 : 3)
                         .foregroundColor(showCheckmark ? Color.green : Color.gray)
-                        .frame(width: showCheckmark ? 40 : 200, height: 40)
+                        .frame(width: showCheckmark ? 40 : .infinity, height: 40)
                         if !showCheckmark {
-                            Text("Cerrar sesión")
+                            Text("Cerrar sesión".uppercased())
                                 .foregroundColor(.white)
                                 .font(.system(size: 20))
                         } else {

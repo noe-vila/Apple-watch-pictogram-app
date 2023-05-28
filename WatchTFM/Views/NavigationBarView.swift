@@ -38,7 +38,7 @@ struct TabButton: View {
         }) {
             Image(systemName: selectedTab == tabName ? selectedImageName : imageName)
                 .font(.system(size: 25))
-                .foregroundColor(selectedTab == tabName ? .blue : .gray)
+                .foregroundColor(selectedTab == tabName ? Color.primary : .gray)
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
         }

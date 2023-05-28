@@ -20,6 +20,7 @@ struct HomeView: View {
                     HStack {
                         TaskItemView(task: task)
                             .opacity(isEditing ? 0.5 : 1.0)
+                            .animation(.default, value: isEditing)
                         if isEditing {
                             Button(action: {
                                 guard let index = taskViewModel.getTaskIndex(task: task) else { return }
@@ -42,12 +43,16 @@ struct HomeView: View {
         .navigationBarItems(trailing: Button(action: {
             isEditing.toggle()
         }) {
-            Text(isEditing ? "Hecho" : "Editar")
+            Image(systemName: isEditing ? "checkmark.diamond.fill" : "pencil")
+                .rotationEffect(.degrees(isEditing ? 360 : 0))
+                .animation(.easeInOut, value: isEditing)
+                .foregroundColor(Color.primary)
         })
         .navigationBarItems(leading: Button(action: {
             showInfo.toggle()
         }) {
-            Text("Info")
+            Image(systemName: "info.circle.fill")
+            .foregroundColor(Color.primary)
         })
         .sheet(isPresented: $showInfo) {
             AuthorView()

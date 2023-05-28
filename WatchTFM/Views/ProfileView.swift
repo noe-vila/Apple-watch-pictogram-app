@@ -25,10 +25,10 @@ struct ProfileView: View {
                             .resizable()
                             .frame(width: 30, height: 30)
                             .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.purple)
+                            .foregroundColor(Color.primary)
                     }
                     
-                    Text("Estadísticas")
+                    Text("Estadísticas".uppercased())
                         .font(.headline)
                         .frame(height: 30)
                 }
@@ -74,12 +74,12 @@ struct ProfileView: View {
             }
             .navigationBarItems(trailing:
                                     Button(action: {
-                withAnimation{
-                    showSettings.toggle()
-                }
+                showSettings.toggle()
             }) {
                 Image(systemName: "gear")
+                    .foregroundColor(Color.primary)
                     .rotationEffect(.degrees(showSettings ? 180 : 0))
+                    .animation(.easeInOut, value: showSettings)
             }
             )
             .sheet(isPresented: $showSettings) {

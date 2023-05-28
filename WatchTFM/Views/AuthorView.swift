@@ -25,7 +25,7 @@ struct AuthorView: View {
                 Text("Noé Vila Muñoz")
                     .font(.headline)
                 
-                Text("Estudiante del Máster Universitario en Ingeniería Informática")
+                Text("Estudiante Máster Universitario en Ingeniería Informática")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
                 
