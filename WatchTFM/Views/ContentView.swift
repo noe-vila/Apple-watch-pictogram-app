@@ -42,13 +42,13 @@ struct ContentView: View {
                     }
                     NavigationBarView(selectedTab: $selectedTab)
                         .opacity(isEditing ? 0.5 : 1.0)
+                        .animation(.default, value: isEditing)
                         .disabled(isEditing)
                 }
                 .environmentObject(taskViewModel)
                 .navigationBarHidden(false)
                 .sheet(isPresented: $isPresentingAddView, onDismiss: {
                     selectedTab = "Home"
-                    taskViewModel.sendCurrentTaskToWatch()
                 }) {
                     AddView(taskViewModel: taskViewModel,
                             isPresentingAddView: $isPresentingAddView,

@@ -151,7 +151,7 @@ struct LoginButtonView: View {
             }
             UserDefaults.standard.set(isFaceId, forKey: "isFaceIdEnabled")
         }) {
-            Text(viewModel.isLoggedIn ? "Acceder" : "Iniciar sesión".uppercased())
+            Text(viewModel.isLoggedIn ? "Acceder".uppercased() : "Iniciar sesión".uppercased())
                 .font(.headline)
                 .frame(maxWidth: .infinity)
                 .background(Color.clear)

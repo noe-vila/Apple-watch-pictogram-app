@@ -9,12 +9,13 @@ import SwiftUI
 
 struct AddView: View {
     @State private var taskName = ""
-    @State private var selectedImage: Image? = Image(systemName: "photo")
+    @State private var selectedImage: Image? = Image(systemName: "figure.wave")
     @State private var selectedImageURL: String = ""
     @State private var selectedImageData: Data = Data()
     @State private var showingImageSearcher = false
-    @State private var startTime = Date()
-    @State private var endTime = Date().addingTimeInterval(60)
+    @State private var zeroTime = Calendar.current.startOfDay(for: .now)
+    @State private var startTime = Calendar.current.startOfDay(for: .now)
+    @State private var endTime = Calendar.current.startOfDay(for: .now)
     @State private var isFormValid = false
     @State private var showOverlapAlert: Bool = false
     @State private var overlapedTask: String = ""
@@ -25,18 +26,24 @@ struct AddView: View {
     
     
     var body: some View {
-        Form {
-            Section(header: Text("Detalles de la tarea")) {
-                TextField("Nombre de la tarea", text: $taskName)
+        VStack (spacing: 50) {
+            Spacer()
+            VStack (spacing: 5) {
+                TextField("", text: $taskName)
+                    .placeholder(when: taskName.isEmpty) {
+                        Text("Nombre de la tarea".uppercased())
+                    }
                     .keyboardType(.default)
                     .submitLabel(.done)
                     .onSubmit {
                         searchViewModel.searchText = taskName
                         searchViewModel.performSearch()
                     }
+                Divider()
             }
+            .foregroundColor(taskName.isEmpty ? .secondary : .primary)
             
-            Section(header: Text("Pictograma")) {
+            VStack (spacing: 5) {
                 Button(action: {
                     if !taskName.isEmpty {
                         searchViewModel.searchText = taskName
@@ -46,58 +53,57 @@ struct AddView: View {
                     self.endTextEditing()
                 }) {
                     HStack {
-                        Text("Buscar Pictograma")
-                            .foregroundColor(.primary)
-                            .padding()
-                            .background(Color(.systemGroupedBackground))
+                        Text(selectedImage != nil && selectedImage != Image(systemName: "figure.wave") ? "Pictograma".uppercased() : "Buscar Pictograma".uppercased())
                             .cornerRadius(10)
+                            .padding(.bottom, -25)
                         
                         Spacer()
                         
                         if let image = selectedImage {
                             image
                                 .resizable()
-                                .foregroundColor(.primary)
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 50, height: 50)
                                 .cornerRadius(10)
                         }
                     }
                 }
+                Divider()
             }
+            .foregroundColor(selectedImage != nil && selectedImage != Image(systemName: "figure.wave") ? .primary : .secondary)
             
-            Section(header: Text("Comienzo")) {
-                DatePicker("Hora de comienzo", selection: $startTime, displayedComponents: [.hourAndMinute])
+            
+            VStack (spacing: 5) {
+                DatePicker("Hora de comienzo".uppercased(), selection: $startTime, displayedComponents: [.hourAndMinute])
+                Divider()
             }
+            .foregroundColor(startTime > zeroTime || endTime > startTime ? .primary : .secondary)
             
-            Section(header: Text("Fin")) {
-                DatePicker("Hora de fin", selection: $endTime, displayedComponents: [.hourAndMinute])
+            VStack (spacing: 5) {
+                DatePicker("Hora de fin".uppercased(), selection: $endTime, displayedComponents: [.hourAndMinute])
+                Divider()
             }
+            .foregroundColor(endTime > startTime ? .primary : .secondary)
             
-            Section {
-                HStack {
-                    Spacer()
-                    
-                    Button(action: {
-                        performForm()
-                    }) {
-                        Text("Guardar")
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(isFormValid ? Color.blue : Color.gray)
-                            .cornerRadius(10)
-                    }
-                    .disabled(!isFormValid)
-                    .alert(isPresented: $showOverlapAlert) {
-                        Alert(title: Text("Error añadiendo tarea"),
-                              message: Text("La tarea que intentas añadir se superpone en el tiempo con \(overlapedTask), por favor, modifica el tiempo para que no se superpongan y vuelve a guardar"),
-                              dismissButton: .default(Text("OK"))
-                        )
-                    }
-                    Spacer()
-                }
-                .padding(.vertical)
+            Spacer()
+            
+            Button(action: {
+                performForm()
+            }) {
+                Text("Guardar".uppercased())
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .font(.headline)
+                    .foregroundColor(isFormValid ? .black : .white)
+                    .background(isFormValid ? Color.primary : Color.gray)
+                    .cornerRadius(5)
+            }
+            .disabled(!isFormValid)
+            .alert(isPresented: $showOverlapAlert) {
+                Alert(title: Text("Error añadiendo tarea"),
+                      message: Text("La tarea que intentas añadir se superpone en el tiempo con \(overlapedTask), por favor, modifica el tiempo para que no se superpongan y vuelve a guardar"),
+                      dismissButton: .default(Text("OK"))
+                )
             }
         }
         .onChange(of: taskName, perform: { _ in
@@ -112,7 +118,7 @@ struct AddView: View {
         .onChange(of: endTime, perform: { _ in
             validateForm()
         })
-        .navigationBarTitle("Detalles de la tarea")
+        .padding()
         .sheet(isPresented: $showingImageSearcher) {
             ImageSearcherView(selectedImage: $selectedImage, searchViewModel: searchViewModel) { pictogramResult in
                 selectedImage = Image(uiImage: pictogramResult.image)
@@ -121,10 +127,11 @@ struct AddView: View {
                 showingImageSearcher = false
             }
         }
+        
     }
     
     private func validateForm() {
-        isFormValid = !taskName.isEmpty && selectedImage != nil && selectedImage != Image(systemName: "photo") && endTime > startTime
+        isFormValid = !taskName.isEmpty && selectedImage != nil && selectedImage != Image(systemName: "figure.wave") && endTime > startTime
     }
     
     private func performForm() {
@@ -158,4 +165,15 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
                                         to: nil, from: nil, for: nil)
     }
+    
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .leading,
+        @ViewBuilder placeholder: () -> Content) -> some View {
+            
+            ZStack(alignment: alignment) {
+                placeholder().opacity(shouldShow ? 1 : 0)
+                self
+            }
+        }
 }
