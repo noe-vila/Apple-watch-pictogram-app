@@ -9,10 +9,31 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject private var healthKitManager = HealthKitManager()
-    @ObservedObject private var viewModel = YourViewModel.shared
+    @StateObject private var loginViewModel = LoginViewModel()
+    @StateObject private var taskViewModel = TaskViewModel()
+    @State private var tasknumber = -1
     
     var body: some View {
-        TaskView(task: viewModel.task)
+        NavigationView {
+            if loginViewModel.isLoggedIn {
+                VStack {
+                    Text("LoggedIn")
+                    Text("\(tasknumber)")
+                    Button(action: {
+                        tasknumber = taskViewModel.getTotalTasks()
+                    }) {
+                        Text("Okay")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                }
+            } else {
+                LoginView(viewModel: loginViewModel)
+            }
+        }
     }
 }
 
