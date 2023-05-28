@@ -12,26 +12,33 @@ struct LoginView: View {
     @StateObject var viewModel: LoginViewModel
     
     var body: some View {
-        VStack {
-            TextField("Email", text: $viewModel.email)
-                .textFieldStyle(PlainTextFieldStyle())
-                .padding()
-            SecureField("Password", text: $viewModel.password)
-                .textFieldStyle(PlainTextFieldStyle())
-                .padding()
-            Button(action: {
-                viewModel.firebaseLogin()
-            }) {
-                Text("Okay")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            .padding()
+        VStack (spacing: 10) {
+            Spacer()
+            TextField("Email".uppercased(), text: $viewModel.email)
+                .foregroundColor(.white)
             
+            SecureField("Password".uppercased(), text: $viewModel.password)
+                .foregroundColor(.white)
+            
+            if (!viewModel.email.isEmpty && !viewModel.password.isEmpty) {
+                Button(action: {
+                    viewModel.firebaseLogin()
+                }) {
+                    Text("Login".uppercased())
+                        .foregroundColor(Color.black)
+                }
+                .background(Color.primary)
+                .cornerRadius(10)
+                .disabled(viewModel.email.isEmpty || viewModel.password.isEmpty)
+                .alert(item: $viewModel.error) { error in
+                    Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
+                }
+            }
             Spacer()
         }
+        .animation(.default, value: !viewModel.email.isEmpty && !viewModel.password.isEmpty)
+        .padding(.horizontal)
+        .edgesIgnoringSafeArea(.all)
+        .navigationBarHidden(true)
     }
 }
