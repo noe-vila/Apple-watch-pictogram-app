@@ -16,7 +16,7 @@ struct TaskItemView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .strokeBorder(Color.gray, lineWidth: 4)
                     .frame(width: 75, height: 75)
-                    .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.white.opacity(0.8)))
+                    .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.primary))
                 Image(uiImage: UIImage(data: Data(base64Encoded: task.imageData) ?? Data()) ?? UIImage())
                     .resizable()
                     .scaledToFit()

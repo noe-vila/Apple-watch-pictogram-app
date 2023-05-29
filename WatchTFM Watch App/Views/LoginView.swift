@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @StateObject var viewModel: LoginViewModel
+    @Binding var refreshHome: Bool
     
     var body: some View {
         VStack (spacing: 10) {
@@ -23,6 +24,7 @@ struct LoginView: View {
             if (!viewModel.email.isEmpty && !viewModel.password.isEmpty) {
                 Button(action: {
                     viewModel.firebaseLogin()
+                    refreshHome.toggle()
                 }) {
                     Text("Login".uppercased())
                         .foregroundColor(Color.black)

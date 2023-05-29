@@ -12,6 +12,9 @@ struct ContentView: View {
     @StateObject private var loginViewModel = LoginViewModel()
     @StateObject private var taskViewModel = TaskViewModel()
     @State private var tasknumber = -1
+    @State private var refreshHome = false
+    
+    @ObservedObject private var connectivityManager = WatchConnectivityManager.shared
     
     var body: some View {
             if !loginViewModel.isLoggedIn {
@@ -19,7 +22,7 @@ struct ContentView: View {
                     Text("LoggedIn")
                     Text("\(tasknumber)")
                     Button(action: {
-                        tasknumber = taskViewModel.getTotalTasks()
+                        WatchConnectivityManager.shared.send("Hello from the watch")
                     }) {
                         Text("Okay")
                             .frame(maxWidth: .infinity)
@@ -29,8 +32,12 @@ struct ContentView: View {
                             .cornerRadius(10)
                     }
                 }
+                .alert(item: $connectivityManager.notificationMessage) { message in
+                Alert(title: Text(message.text),
+                      dismissButton: .default(Text("Dismiss")))
+           }
             } else {
-                LoginView(viewModel: loginViewModel)
+                LoginView(viewModel: loginViewModel, refreshHome: $refreshHome)
             }
     }
 }

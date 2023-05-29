@@ -17,9 +17,7 @@ struct WatchTFM_Watch_AppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView().onAppear {
-                WatchSessionManager.shared.startSession()
-            }
+            ContentView()
             .edgesIgnoringSafeArea(.all)
         }
     }

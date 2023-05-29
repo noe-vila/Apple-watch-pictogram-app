@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var selectedImage: UIImage? = nil
     @State private var refreshHome: Bool = false
     
+    @ObservedObject private var connectivityManager = WatchConnectivityManager.shared
     
     var body: some View {
         NavigationView {
@@ -45,10 +46,16 @@ struct ContentView: View {
                         .animation(.default, value: isEditing)
                         .disabled(isEditing)
                 }
+                .alert(item: $connectivityManager.notificationMessage) { message in
+                    Alert(title: Text(message.text),
+                          dismissButton: .default(Text("Dismiss")))
+               }
+
                 .environmentObject(taskViewModel)
                 .navigationBarHidden(false)
                 .sheet(isPresented: $isPresentingAddView, onDismiss: {
                     selectedTab = "Home"
+                    WatchConnectivityManager.shared.send("Hello from the phone")
                 }) {
                     AddView(taskViewModel: taskViewModel,
                             isPresentingAddView: $isPresentingAddView,
