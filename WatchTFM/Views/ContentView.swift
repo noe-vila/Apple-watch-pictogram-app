@@ -64,6 +64,9 @@ struct ContentView: View {
                 .onChange(of: selectedTab) { newTab in
                     isPresentingAddView = newTab == "Add"
                 }
+                .onAppear(){
+                    taskViewModel.loadTasks()
+                }
             } else {
                 LoginView(viewModel: loginViewModel)
                     .navigationBarHidden(false)
