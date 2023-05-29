@@ -41,9 +41,10 @@
 		DC96DD392A1F637D00DA6A13 /* AuthorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD382A1F637D00DA6A13 /* AuthorView.swift */; };
 		DC96DD3B2A1F6A6300DA6A13 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD3A2A1F6A6300DA6A13 /* SettingsView.swift */; };
 		DCC033D42A21F12100797A52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC033D32A21F12100797A52 /* AppDelegate.swift */; };
-		DCC033D62A21F2B200797A52 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC033D52A21F2B200797A52 /* WatchSessionManager.swift */; };
 		DCC033D82A21F45A00797A52 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC033D72A21F45A00797A52 /* Task.swift */; };
 		DCC033D92A21F45A00797A52 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC033D72A21F45A00797A52 /* Task.swift */; };
+		DCC340032A247D790097A8C5 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC340022A247D790097A8C5 /* WatchConnectivityManager.swift */; };
+		DCC340042A247D790097A8C5 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC340022A247D790097A8C5 /* WatchConnectivityManager.swift */; };
 		DCEBD9662A22446B00ED16BA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD9652A22446B00ED16BA /* FirebaseAnalytics */; };
 		DCEBD9682A22446B00ED16BA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD9672A22446B00ED16BA /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		DCEBD96A2A22446B00ED16BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD9692A22446B00ED16BA /* FirebaseAuth */; };
@@ -111,8 +112,8 @@
 		DC96DD382A1F637D00DA6A13 /* AuthorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorView.swift; sourceTree = "<group>"; };
 		DC96DD3A2A1F6A6300DA6A13 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		DCC033D32A21F12100797A52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DCC033D52A21F2B200797A52 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		DCC033D72A21F45A00797A52 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		DCC340022A247D790097A8C5 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +149,7 @@
 		DC3012292A1A69BD008B5CA3 = {
 			isa = PBXGroup;
 			children = (
+				DCC340022A247D790097A8C5 /* WatchConnectivityManager.swift */,
 				DC57A4062A23AC3900355B10 /* ViewModels */,
 				DCC033DA2A21F47B00797A52 /* Model */,
 				DC3012342A1A69BD008B5CA3 /* WatchTFM */,
@@ -197,7 +199,6 @@
 				DC30125C2A1A6B38008B5CA3 /* WatchTFM Watch App.entitlements */,
 				DC3012472A1A69BF008B5CA3 /* WatchTFMApp.swift */,
 				DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */,
-				DCC033D52A21F2B200797A52 /* WatchSessionManager.swift */,
 				DC96DD212A1D31A500DA6A13 /* Views */,
 				DC96DD242A1D31FA00DA6A13 /* Models */,
 				DCEBD9762A238AFB00ED16BA /* ViewModels */,
@@ -416,6 +417,7 @@
 				DC96DD282A1D46E000DA6A13 /* TaskItemView.swift in Sources */,
 				DC96DD2F2A1E15A200DA6A13 /* SearchView.swift in Sources */,
 				DC96DD1F2A1D2F3A00DA6A13 /* NavigationBarView.swift in Sources */,
+				DCC340032A247D790097A8C5 /* WatchConnectivityManager.swift in Sources */,
 				DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */,
 				DC96DD352A1F5A6D00DA6A13 /* ProfileView.swift in Sources */,
 				DC57A4082A23AC5000355B10 /* TaskViewModel.swift in Sources */,
@@ -440,10 +442,10 @@
 				DC57A4092A23AC5000355B10 /* TaskViewModel.swift in Sources */,
 				DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */,
 				DC7D9F412A23B2F200558A44 /* LoginView.swift in Sources */,
+				DCC340042A247D790097A8C5 /* WatchConnectivityManager.swift in Sources */,
 				DCC033D92A21F45A00797A52 /* Task.swift in Sources */,
 				DC57A40C2A23AC6500355B10 /* LoginViewModel.swift in Sources */,
 				DC4731962A2201D800A86DF0 /* TaskView.swift in Sources */,
-				DCC033D62A21F2B200797A52 /* WatchSessionManager.swift in Sources */,
 				DC3012482A1A69BF008B5CA3 /* WatchTFMApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

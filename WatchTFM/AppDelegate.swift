@@ -12,7 +12,6 @@ import Firebase
 
 class AppDelegate: NSObject, UIApplicationDelegate, WCSessionDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        FirebaseApp.configure()
         if WCSession.isSupported() {
             let session = WCSession.default
             session.delegate = self
