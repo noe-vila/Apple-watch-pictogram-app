@@ -13,11 +13,8 @@ import WatchConnectivity
 
 class TaskViewModel: ObservableObject {
     @Published private var taskItems: [Task] = []
-    
-    init() {
-        loadTasks()
-    }
-    
+    let baseURL = "https://pictowatch-95035-default-rtdb.europe-west1.firebasedatabase.app"
+        
     func getTaskItems() -> [Task] {
         return taskItems
     }
@@ -48,32 +45,48 @@ class TaskViewModel: ObservableObject {
     }
 
     private func saveTask(_ task: Task) {
-        let db = Database.database().reference()
-        guard let userId = Auth.auth().currentUser?.uid else {
+        guard let user = Auth.auth().currentUser else {
             print("User not authenticated.")
             return
         }
-        
-        let taskRef = db.child("users").child(userId).child("taskItems").childByAutoId()
-        let imageDataString = task.imageData
-        let name = task.name
-        let startDate = task.startDate.timeIntervalSince1970
-        let endDate = task.endDate.timeIntervalSince1970
-        
-        let taskData: [String: Any] = [
-            "imageData": imageDataString,
-            "name": name,
-            "startDate": startDate,
-            "endDate": endDate
-        ]
-        
-        taskRef.setValue(taskData) { (error, _) in
-            if let error = error {
-                print("Error saving task: \(error)")
-            } else {
-                print("Task saved successfully.")
+        user.getIDTokenForcingRefresh(true) { idToken, error in
+          if let error = error {
+              print("Error with user token: \(error)")
+            return;
+          }
+            guard let idToken = idToken else { return }
+            let endpoint = "/users/\(user.uid)/taskItems.json?auth=\(idToken)"
+            let url = URL(string: self.baseURL + endpoint)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let taskData: [String: Any] = [
+                "imageData": task.imageData,
+                "name": task.name,
+                "startDate": task.startDate.timeIntervalSince1970,
+                "endDate": task.endDate.timeIntervalSince1970
+            ]
+            
+            let jsonData = try? JSONSerialization.data(withJSONObject: taskData)
+            request.httpBody = jsonData
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print("Error saving task: \(error)")
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                    print("Task saved successfully.")
+                } else {
+                    print("Error saving task: \(response!)")
+                }
             }
+            
+            task.resume()
         }
+        
     }
     
     func getTaskIndex(task: Task) -> Int? {
@@ -103,90 +116,106 @@ class TaskViewModel: ObservableObject {
     }
     
     func removeTask(index: Int) {
-        let task = taskItems[index]
-        let db = Database.database().reference()
-        guard let userId = Auth.auth().currentUser?.uid else {
+        let myTask = taskItems[index]
+        guard let user = Auth.auth().currentUser else {
             print("User not authenticated.")
             return
         }
-        let taskRef = db.child("users").child(userId).child("taskItems").child(task.id)
-        taskRef.removeValue { (error, _) in
+        user.getIDTokenForcingRefresh(true) { idToken, error in
             if let error = error {
-                print("Error removing task with ID \(task.id): \(error)")
-            } else {
-                self.taskItems.remove(at: index)
-                print("Task with ID \(task.id) removed successfully.")
+                print("Error with user token: \(error)")
+                return;
             }
-        }
-    }
-    
-    private func saveTasks() {
-        let db = Database.database().reference()
-        guard let userId = Auth.auth().currentUser?.uid else {
-            print("User not authenticated.")
-            return
-        }
-        
-        for (index, task) in taskItems.enumerated() {
-            let taskRef = db.child("users").child(userId).child("taskItems").child(task.id)
-            let imageDataString = task.imageData
-            let name = task.name
-            let startDate = task.startDate.timeIntervalSince1970
-            let endDate = task.endDate.timeIntervalSince1970
+            guard let idToken = idToken else { return }
+            let endpoint = "/users/\(user.uid)/taskItems.json?auth=\(idToken)"
+            let url = URL(string: self.baseURL + endpoint)!
             
-            let taskData: [String: Any] = [
-                "imageData": imageDataString,
-                "name": name,
-                "startDate": startDate,
-                "endDate": endDate
-            ]
+            var request = URLRequest(url: url)
+            request.httpMethod = "DELETE"
             
-            taskRef.setValue(taskData) { (error, _) in
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let error = error {
-                    print("Error saving task at index \(index): \(error)")
+                    print("Error removing task with ID \(myTask.id): \(error)")
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                    DispatchQueue.main.async {
+                        self.taskItems.remove(at: index)
+                        print("Task with ID \(myTask.id) removed successfully.")
+                    }
                 } else {
-                    print("Task at index \(index) saved successfully.")
+                    print("Error removing task with ID \(myTask.id): \(response!)")
                 }
             }
+            
+            task.resume()
         }
     }
     
     
     func loadTasks() {
-        let db = Database.database().reference()
-        guard let userId = Auth.auth().currentUser?.uid else {
+        guard let user = Auth.auth().currentUser else {
             print("User not authenticated.")
             return
         }
-        
-        let taskItemsRef = db.child("users").child(userId).child("taskItems")
-        taskItemsRef.observeSingleEvent(of: .value) { snapshot in
-            guard let tasksSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
-                return
+        user.getIDTokenForcingRefresh(true) { idToken, error in
+            if let error = error {
+                print("Error with user token: \(error)")
+                return;
             }
+            guard let idToken = idToken else { return }
+            let endpoint = "/users/\(user.uid)/taskItems.json?auth=\(idToken)"
+            let url = URL(string: self.baseURL + endpoint)!
             
-            var loadedTasks: [Task] = []
-            
-            for taskSnapshot in tasksSnapshot {
-                guard let taskData = taskSnapshot.value as? [String: Any],
-                      let imageDataString = taskData["imageData"] as? String,
-                      let imageData = Data(base64Encoded: imageDataString),
-                      let name = taskData["name"] as? String,
-                      let startDateTimestamp = taskData["startDate"] as? TimeInterval,
-                      let endDateTimestamp = taskData["endDate"] as? TimeInterval else {
-                    print("Invalid task data for task with ID: \(taskSnapshot.key)")
-                    continue
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("Error loading tasks: \(error)")
+                    return
                 }
                 
-                let startDate = Date(timeIntervalSince1970: startDateTimestamp)
-                let endDate = Date(timeIntervalSince1970: endDateTimestamp)
+                guard let data = data else {
+                    print("No data received.")
+                    return
+                }
                 
-                let loadedTask = Task(id: taskSnapshot.key, imageData: imageData, name: name, startDate: startDate, endDate: endDate)
-                loadedTasks.append(loadedTask)
+                do {
+                    let taskData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    
+                    var loadedTasks: [Task] = []
+                    
+                    taskData?.forEach { taskId, taskInfo in
+                        guard let taskInfo = taskInfo as? [String: Any],
+                              let imageDataString = taskInfo["imageData"] as? String,
+                              let imageData = Data(base64Encoded: imageDataString),
+                              let name = taskInfo["name"] as? String,
+                              let startDateTimestamp = taskInfo["startDate"] as? TimeInterval,
+                              let endDateTimestamp = taskInfo["endDate"] as? TimeInterval else {
+                            print("Invalid task data for task with ID: \(taskId)")
+                            return
+                        }
+                        
+                        let startDate = Date(timeIntervalSince1970: startDateTimestamp)
+                        let endDate = Date(timeIntervalSince1970: endDateTimestamp)
+                        
+                        let loadedTask = Task(id: taskId, imageData: imageData, name: name, startDate: startDate, endDate: endDate)
+                        loadedTasks.append(loadedTask)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.taskItems = loadedTasks
+                        print("Tasks loaded successfully.")
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        print("Error parsing task data: \(error)")
+                    }
+                }
             }
             
-            self.taskItems = loadedTasks
+            task.resume()
         }
     }
+
     
 }
