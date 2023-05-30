@@ -29,6 +29,7 @@
 		DC57A40C2A23AC6500355B10 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC57A40A2A23AC6500355B10 /* LoginViewModel.swift */; };
 		DC68C5722A23CBC600B3804B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC68C5712A23CBC600B3804B /* GoogleService-Info.plist */; };
 		DC7D9F412A23B2F200558A44 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7D9F402A23B2F200558A44 /* LoginView.swift */; };
+		DC937EB52A2611F400B7A661 /* TaskRoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC937EB42A2611F400B7A661 /* TaskRoundedView.swift */; };
 		DC96DD1D2A1D2F3000DA6A13 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */; };
 		DC96DD1F2A1D2F3A00DA6A13 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */; };
 		DC96DD282A1D46E000DA6A13 /* TaskItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */; };
@@ -100,6 +101,7 @@
 		DC57A40A2A23AC6500355B10 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		DC68C5712A23CBC600B3804B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DC7D9F402A23B2F200558A44 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		DC937EB42A2611F400B7A661 /* TaskRoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRoundedView.swift; sourceTree = "<group>"; };
 		DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 		DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemView.swift; sourceTree = "<group>"; };
@@ -201,7 +203,6 @@
 				DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */,
 				DC96DD212A1D31A500DA6A13 /* Views */,
 				DC96DD242A1D31FA00DA6A13 /* Models */,
-				DCEBD9762A238AFB00ED16BA /* ViewModels */,
 				DC30124B2A1A69C0008B5CA3 /* Assets.xcassets */,
 				DC30124D2A1A69C0008B5CA3 /* Preview Content */,
 			);
@@ -249,6 +250,7 @@
 				DC3012492A1A69BF008B5CA3 /* ContentView.swift */,
 				DC4731952A2201D800A86DF0 /* TaskView.swift */,
 				DC7D9F402A23B2F200558A44 /* LoginView.swift */,
+				DC937EB42A2611F400B7A661 /* TaskRoundedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -281,13 +283,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DCEBD9762A238AFB00ED16BA /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -441,6 +436,7 @@
 				DC30124A2A1A69BF008B5CA3 /* ContentView.swift in Sources */,
 				DC57A4092A23AC5000355B10 /* TaskViewModel.swift in Sources */,
 				DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */,
+				DC937EB52A2611F400B7A661 /* TaskRoundedView.swift in Sources */,
 				DC7D9F412A23B2F200558A44 /* LoginView.swift in Sources */,
 				DCC340042A247D790097A8C5 /* WatchConnectivityManager.swift in Sources */,
 				DCC033D92A21F45A00797A52 /* Task.swift in Sources */,

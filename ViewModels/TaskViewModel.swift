@@ -14,6 +14,11 @@ import WatchConnectivity
 class TaskViewModel: ObservableObject {
     @Published private var taskItems: [Task] = []
     let baseURL = "https://pictowatch-95035-default-rtdb.europe-west1.firebasedatabase.app"
+    var isLoading: Bool = false
+    
+    init() {
+        loadTasks()
+    }
         
     func getTaskItems() -> [Task] {
         return taskItems
@@ -65,7 +70,8 @@ class TaskViewModel: ObservableObject {
                 "imageData": task.imageData,
                 "name": task.name,
                 "startDate": task.startDate.timeIntervalSince1970,
-                "endDate": task.endDate.timeIntervalSince1970
+                "endDate": task.endDate.timeIntervalSince1970,
+                "avgColorData": task.avgColorData
             ]
             
             let jsonData = try? JSONSerialization.data(withJSONObject: taskData)
@@ -95,7 +101,8 @@ class TaskViewModel: ObservableObject {
     
     func getCurrentTask() -> Task? {
         let currentDate = Date()
-        return taskItems.first(where: { $0.startDate <= currentDate && $0.endDate >= currentDate })
+        let task = taskItems.first(where: { $0.startDate <= currentDate && $0.endDate >= currentDate })
+        return task
     }
     
     func sendCurrentTaskToWatch() {
@@ -155,6 +162,7 @@ class TaskViewModel: ObservableObject {
     
     
     func loadTasks() {
+        isLoading = true
         guard let user = Auth.auth().currentUser else {
             print("User not authenticated.")
             return
@@ -190,7 +198,9 @@ class TaskViewModel: ObservableObject {
                               let imageData = Data(base64Encoded: imageDataString),
                               let name = taskInfo["name"] as? String,
                               let startDateTimestamp = taskInfo["startDate"] as? TimeInterval,
-                              let endDateTimestamp = taskInfo["endDate"] as? TimeInterval else {
+                              let endDateTimestamp = taskInfo["endDate"] as? TimeInterval,
+                              let avgColorDataString = taskInfo["avgColorData"] as? String,
+                              let avgColorData = Data(base64Encoded: avgColorDataString) else {
                             print("Invalid task data for task with ID: \(taskId)")
                             return
                         }
@@ -198,16 +208,18 @@ class TaskViewModel: ObservableObject {
                         let startDate = Date(timeIntervalSince1970: startDateTimestamp)
                         let endDate = Date(timeIntervalSince1970: endDateTimestamp)
                         
-                        let loadedTask = Task(id: taskId, imageData: imageData, name: name, startDate: startDate, endDate: endDate)
+                        let loadedTask = Task(id: taskId, imageData: imageData, name: name, startDate: startDate, endDate: endDate, avgColorData: avgColorData)
                         loadedTasks.append(loadedTask)
                     }
                     
                     DispatchQueue.main.async {
                         self.taskItems = loadedTasks
+                        self.isLoading = false
                         print("Tasks loaded successfully.")
                     }
                 } catch {
                     DispatchQueue.main.async {
+                        self.isLoading = false
                         print("Error parsing task data: \(error)")
                     }
                 }

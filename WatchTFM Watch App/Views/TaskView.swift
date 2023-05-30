@@ -11,13 +11,14 @@ struct TaskView: View {
     var task: Task
     
     var body: some View {
-        VStack {
-            Image(uiImage: UIImage(data: Data(base64Encoded: task.imageData) ?? Data()) ?? UIImage())
-                .resizable()
-                .scaledToFit()
-            Text(task.name)
+        NavigationView {
+//            VStack {
+//                Text(task.name.uppercased())
+//                    .foregroundColor(Color.secondary)
+//
+//            }
+            TaskRoundedView(task: task)
+            .navigationBarHidden(true)
         }
-        .frame(width: .infinity, height: .infinity)
-        .edgesIgnoringSafeArea(.all)
     }
 }

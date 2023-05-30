@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Task: Equatable, Codable, Hashable {
     let id: String
@@ -13,13 +14,15 @@ struct Task: Equatable, Codable, Hashable {
     let name: String
     let startDate: Date
     let endDate: Date
+    let avgColorData: String
     
-    init(id: String = UUID().uuidString, imageData: Data = Data(), name: String = "", startDate: Date = Date(), endDate: Date = Date()) {
+    init(id: String = UUID().uuidString, imageData: Data = Data(), name: String = "", startDate: Date = Date(), endDate: Date = Date(), avgColorData: Data = Data()) {
         self.id = id
         self.imageData = imageData.base64EncodedString()
         self.name = name
         self.startDate = startDate
         self.endDate = endDate
+        self.avgColorData = avgColorData.base64EncodedString()
     }
     
     init(from decoder: Decoder) throws {
@@ -30,6 +33,8 @@ struct Task: Equatable, Codable, Hashable {
         self.name = try container.decode(String.self, forKey: .name)
         self.startDate = try container.decode(Date.self, forKey: .startDate)
         self.endDate = try container.decode(Date.self, forKey: .endDate)
+        let avgColorDataString = try container.decode(String.self, forKey: .avgColor)
+        self.avgColorData = avgColorDataString
     }
     
     func encode(to encoder: Encoder) throws {
@@ -39,6 +44,7 @@ struct Task: Equatable, Codable, Hashable {
         try container.encode(name, forKey: .name)
         try container.encode(startDate, forKey: .startDate)
         try container.encode(endDate, forKey: .endDate)
+        try container.encode(avgColorData, forKey: .avgColor)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -47,5 +53,37 @@ struct Task: Equatable, Codable, Hashable {
         case name
         case startDate
         case endDate
+        case avgColor
+    }
+}
+
+extension UIColor {
+    func encodeToData() -> Data {
+        var colorData: Data?
+        if #available(iOS 12.0, *) {
+            do {
+                colorData = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: true)
+            } catch {
+                print("Failed to encode color data: \(error)")
+            }
+        } else {
+            colorData = NSKeyedArchiver.archivedData(withRootObject: self)
+        }
+        return colorData ?? Data()
+    }
+    
+    static func decodeFromData(_ data: Data) -> UIColor? {
+        if #available(iOS 12.0, *) {
+            do {
+                let color = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: data)
+                return color
+            } catch {
+                print("Failed to decode color data: \(error)")
+            }
+        } else {
+            let color = NSKeyedUnarchiver.unarchiveObject(with: data) as? UIColor
+            return color
+        }
+        return nil
     }
 }
