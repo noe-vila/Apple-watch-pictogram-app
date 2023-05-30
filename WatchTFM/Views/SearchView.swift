@@ -34,7 +34,6 @@ struct SearchView: View {
                             } else {
                                 ForEach(viewModel.searchResults, id: \.self) { pictogram in
                                     ZStack {
-                                        //Reuse my previous roundedrectangle here instead of this one
                                         RoundedRectangle(cornerRadius: 20)
                                             .strokeBorder(Color.secondary, lineWidth: 4)
                                             .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.secondary.opacity(0.2)))
