@@ -70,7 +70,6 @@ struct EmailView: View {
     var body: some View {
         VStack (spacing: 0) {
             TextField("Correo electrónico".uppercased(), text: $email)
-                .foregroundColor(.white)
                 .padding()
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
@@ -131,37 +130,49 @@ struct BiometricToggleView: View {
 }
 
 struct LoginButtonView: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     @Binding var isRegister: Bool
     @Binding var isFaceId: Bool
     @State var isAuthenticationSuccessful: Bool
     @ObservedObject var viewModel: LoginViewModel
+    @State private var pulsed = false
     
     var body: some View {
         Button(action: {
             if isRegister {
                 isRegister.toggle()
-            } else if isFaceId {
-                authenticateWithFaceID()
             } else {
-                if viewModel.isLoggedIn {
-                    viewModel.profileLogin()
+                pulsed = true
+                if isFaceId {
+                    authenticateWithFaceID()
                 } else {
-                    viewModel.firebaseLogin()
+                    if viewModel.isLoggedIn {
+                        viewModel.profileLogin()
+                    } else {
+                        viewModel.firebaseLogin()
+                    }
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    pulsed = false
                 }
             }
             UserDefaults.standard.set(isFaceId, forKey: "isFaceIdEnabled")
         }) {
-            Text(viewModel.isLoggedIn ? "Acceder".uppercased() : "Iniciar sesión".uppercased())
-                .font(.headline)
-                .frame(maxWidth: .infinity)
-                .background(Color.clear)
-                .foregroundColor(isRegister ? .white : .black)
+            if pulsed {
+                ProgressView()
+            } else {
+                Text(viewModel.isLoggedIn ? "Acceder".uppercased() : "Iniciar sesión".uppercased())
+                    .font(.headline)
+                    .foregroundColor(isRegister ? .white : .black)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.clear)
+            }
         }
         .alert(item: $viewModel.error) { error in
             Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
         }
         .buttonStyle(LoginButtonStyle())
-        .background(isRegister ? Color.secondary : Color.primary.opacity(0.8))
+        .background(isRegister ? Color.secondary : Color.primary.opacity(colorScheme == .light ? 0.2 : 0.8))
         .cornerRadius(5)
         .padding()
     }
@@ -213,25 +224,35 @@ struct NoAccountView: View {
 }
 
 struct SignUpButtonView: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     @Binding var isRegister: Bool
     @ObservedObject var viewModel: LoginViewModel
+    @State private var pulsed = false
     
     var body: some View {
         Button(action: {
             if isRegister {
+                pulsed = true
                 viewModel.firebaseSignup()
                 isRegister.toggle()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    pulsed = false
+                }
             }
             isRegister.toggle()
         }) {
-            Text("Registrarse".uppercased())
-                .font(.headline)
+            if pulsed {
+                ProgressView()
+            } else {
+                Text("Registrarse".uppercased())
+                    .font(.headline)
                     .background(Color.clear)
                     .foregroundColor(isRegister ? .black : .white)
                     .frame(maxWidth: .infinity)
+            }
         }
         .buttonStyle(LoginButtonStyle())
-        .background(isRegister ? Color.primary.opacity(0.8) : Color.secondary)
+        .background(isRegister ? Color.primary.opacity(colorScheme == .light ? 0.2 : 0.8) : Color.secondary)
         .cornerRadius(5)
         .padding()
         .alert(item: $viewModel.error) { error in

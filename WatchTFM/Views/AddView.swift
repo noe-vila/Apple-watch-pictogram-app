@@ -92,11 +92,12 @@ struct AddView: View {
             Button(action: {
                 performForm()
             }) {
+                @Environment(\.colorScheme) var colorScheme: ColorScheme
                 Text("Guardar".uppercased())
                     .frame(maxWidth: .infinity)
                     .padding()
                     .font(.headline)
-                    .foregroundColor(isFormValid ? .black : .white)
+                    .foregroundColor(isFormValid ? (colorScheme == .light ? .white : .black) : .white)
                     .background(isFormValid ? Color.primary : Color.gray)
                     .cornerRadius(5)
             }

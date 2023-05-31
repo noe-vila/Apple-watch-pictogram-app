@@ -11,12 +11,14 @@ struct TaskItemView: View {
     var task: Task
     
     var body: some View {
+        @Environment(\.colorScheme) var colorScheme: ColorScheme
+        
         HStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .strokeBorder(Color.gray, lineWidth: 4)
                     .frame(width: 75, height: 75)
-                    .background(RoundedRectangle(cornerRadius: 20).foregroundColor(Color.primary))
+                    .background(RoundedRectangle(cornerRadius: 20).foregroundColor(colorScheme == .light ? Color.clear : Color.primary))
                 Image(uiImage: UIImage(data: Data(base64Encoded: task.imageData) ?? Data()) ?? UIImage())
                     .resizable()
                     .scaledToFit()
