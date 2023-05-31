@@ -7,58 +7,88 @@ struct LoginView: View {
     @State private var isProfileLogin = false
     @State private var isRegister = false
     @State private var isFaceId = UserDefaults.standard.bool(forKey: "isFaceIdEnabled")
+    @State private var showForgotPassword = false
     
     var body: some View {
         VStack {
-            
             Spacer()
             if !isProfileLogin {
-                TitleView()
+                TitleView(isRegister: isRegister)
             }
-            if !isRegister {
-                if !viewModel.isLoggedIn {
-                    EmailView(email: $viewModel.email)
+            Group {
+                if !isRegister {
+                    if !viewModel.isLoggedIn {
+                        EmailView(email: $viewModel.email)
+                    }
+                    if !viewModel.isLoggedIn || !viewModel.isProfileLoggedIn && !isFaceId {
+                        PasswordView(password: $viewModel.password)
+                    }
                 }
-                if !viewModel.isLoggedIn || !viewModel.isProfileLoggedIn && !isFaceId {
-                    PasswordView(password: $viewModel.password)
-                }
-            }
             if viewModel.isLoggedIn {
                 BiometricToggleView(isFaceId: $isFaceId)
             }
+            }
             LoginButtonView(isRegister: $isRegister, isFaceId: $isFaceId, isAuthenticationSuccessful: isAuthenticationSuccessful, viewModel: viewModel)
+            if !isRegister && !viewModel.isLoggedIn {
+                HStack {
+                    ForgotPasswordTextView()
+                        .onTapGesture {
+                            showForgotPassword = true
+                        }
+                    Spacer()
+                }
+            }
             Spacer()
             if !isProfileLogin {
-                NoAccountView()
+                NoAccountView(isRegister: isRegister)
             }
-            if isRegister {
-                if !viewModel.isLoggedIn {
-                    EmailView(email: $viewModel.email)
-                }
-                if !viewModel.isLoggedIn || !viewModel.isProfileLoggedIn && !isFaceId {
-                    PasswordView(password: $viewModel.password)
+            Group {
+                if isRegister {
+                    if !viewModel.isLoggedIn {
+                        EmailView(email: $viewModel.email)
+                    }
+                    if !viewModel.isLoggedIn || !viewModel.isProfileLoggedIn && !isFaceId {
+                        PasswordView(password: $viewModel.password)
+                    }
                 }
             }
             if !viewModel.isLoggedIn {
                 SignUpButtonView(isRegister: $isRegister, viewModel: viewModel)
             }
             Spacer()
-            
         }
         .animation(.default, value: isFaceId || isRegister)
         .onAppear {
             isProfileLogin = viewModel.isLoggedIn && !viewModel.isProfileLoggedIn
         }
+        .sheet(isPresented: $showForgotPassword, onDismiss: {
+            showForgotPassword = false
+        }) {
+            ForgotPasswordView(viewModel: viewModel, showForgotPassword: $showForgotPassword)
+        }
     }
 }
 
 struct TitleView: View {
+    var isRegister: Bool
     var body: some View {
         HStack {
             Text("Accede a tu cuenta")
                 .bold()
-                .font(.title)
+                .font(isRegister ? .title2 : .title)
             Spacer()
+        }
+        .padding()
+    }
+}
+
+struct ForgotPasswordTextView: View {
+    var body: some View {
+        HStack {
+            Text("Restaura tu contraseña")
+                .bold()
+                .font(.title3)
+                .foregroundColor(.secondary)
         }
         .padding()
     }
@@ -212,11 +242,12 @@ struct LoginButtonView: View {
 }
 
 struct NoAccountView: View {
+    var isRegister: Bool
     var body: some View {
         HStack {
             Text("¿No tienes cuenta?")
                 .bold()
-                .font(.title2)
+                .font(isRegister ? .title : .title2)
             Spacer()
         }
         .padding()

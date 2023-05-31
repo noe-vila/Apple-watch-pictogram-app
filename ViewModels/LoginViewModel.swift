@@ -54,6 +54,16 @@ class LoginViewModel: ObservableObject {
             }
         }
     }
+    
+    func firebaseResetPasswordEmail(completion: @escaping (Error?) -> Void) {
+        Auth.auth().sendPasswordReset(withEmail: email) { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                self.error = LoginError(message: error.localizedDescription)
+            }
+            completion(error)
+        }
+    }
 
     private func handleSuccessfulLogin() {
         isLoggedIn = true
