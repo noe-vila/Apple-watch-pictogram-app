@@ -12,6 +12,7 @@
 		DC160DBC2A23906500CA4F55 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = DC160DBB2A23906500CA4F55 /* FirebaseDatabase */; };
 		DC160DBE2A23906500CA4F55 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC160DBD2A23906500CA4F55 /* FirebaseDatabaseSwift */; };
 		DC160DC02A23951800CA4F55 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC160DBF2A23951800CA4F55 /* GoogleService-Info.plist */; };
+		DC19889A2A27DBA6007111DA /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1988992A27DBA6007111DA /* ForgotPasswordView.swift */; };
 		DC3012362A1A69BD008B5CA3 /* WatchTFMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3012352A1A69BD008B5CA3 /* WatchTFMApp.swift */; };
 		DC3012382A1A69BD008B5CA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3012372A1A69BD008B5CA3 /* ContentView.swift */; };
 		DC30123A2A1A69BF008B5CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC3012392A1A69BF008B5CA3 /* Assets.xcassets */; };
@@ -82,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		DC160DBF2A23951800CA4F55 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DC1988992A27DBA6007111DA /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		DC3012322A1A69BD008B5CA3 /* WatchTFM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchTFM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC3012352A1A69BD008B5CA3 /* WatchTFMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTFMApp.swift; sourceTree = "<group>"; };
 		DC3012372A1A69BD008B5CA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 			children = (
 				DC3012372A1A69BD008B5CA3 /* ContentView.swift */,
 				DC96DD1C2A1D2F3000DA6A13 /* LoginView.swift */,
+				DC1988992A27DBA6007111DA /* ForgotPasswordView.swift */,
 				DC96DD1E2A1D2F3A00DA6A13 /* NavigationBarView.swift */,
 				DC96DD272A1D46E000DA6A13 /* TaskItemView.swift */,
 				DC96DD2C2A1E011100DA6A13 /* HomeView.swift */,
@@ -418,6 +421,7 @@
 				DC57A4082A23AC5000355B10 /* TaskViewModel.swift in Sources */,
 				DC96DD372A1F5FE800DA6A13 /* StatisticsView.swift in Sources */,
 				DC3012382A1A69BD008B5CA3 /* ContentView.swift in Sources */,
+				DC19889A2A27DBA6007111DA /* ForgotPasswordView.swift in Sources */,
 				DC96DD332A1E71F400DA6A13 /* AddView.swift in Sources */,
 				DCC033D42A21F12100797A52 /* AppDelegate.swift in Sources */,
 				DC96DD392A1F637D00DA6A13 /* AuthorView.swift in Sources */,
