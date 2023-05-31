@@ -63,7 +63,7 @@ struct SearchView: View {
                     TextField("Buscar".uppercased(), text: $viewModel.searchText, onEditingChanged: { editing in
                         isEditing = editing
                     })
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.secondary)
                     .onSubmit({
                         hideKeyboard()
                         viewModel.performSearch()
