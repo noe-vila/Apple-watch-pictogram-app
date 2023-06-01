@@ -97,7 +97,7 @@ struct AddView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .font(.headline)
-                    .foregroundColor(isFormValid ? (colorScheme == .light ? .white : .black) : .white)
+                    .foregroundColor(isFormValid ? (colorScheme == .light ? .white : .black) : (colorScheme == .light ? .black : .white))
                     .background(isFormValid ? Color.primary : Color.gray)
                     .cornerRadius(5)
             }
@@ -143,10 +143,29 @@ struct AddView: View {
     }
     
     private func performForm() {
-        let task = Task(imageData: selectedImageData, name: taskName, startDate: startTime, endDate: endTime, avgColorData: avgColor.encodeToData())
-        if let overlaped = taskViewModel.addTask(task) {
+        let calendar = Calendar.current
+
+        var startComponents = calendar.dateComponents([.hour, .minute, .second], from: startTime)
+        startComponents.year = 2000
+        startComponents.month = 1
+        startComponents.day = 1
+        let startTimeWithHMS = calendar.date(from: startComponents)!
+
+        var endComponents = calendar.dateComponents([.hour, .minute, .second], from: endTime)
+        endComponents.year = 2000
+        endComponents.month = 1
+        endComponents.day = 1
+        let endTimeWithHMS = calendar.date(from: endComponents)!
+
+        let task = Task(imageData: selectedImageData,
+                        name: taskName,
+                        startDate: startTimeWithHMS,
+                        endDate: endTimeWithHMS,
+                        avgColorData: avgColor.encodeToData())
+
+        if let overlapped = taskViewModel.addTask(task) {
             showOverlapAlert = true
-            overlapedTask = overlaped
+            overlapedTask = overlapped
         } else {
             refreshHome.toggle()
             isPresentingAddView = false

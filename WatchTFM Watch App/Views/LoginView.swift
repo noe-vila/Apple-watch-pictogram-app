@@ -23,8 +23,12 @@ struct LoginView: View {
             
             if (!viewModel.email.isEmpty && !viewModel.password.isEmpty) {
                 Button(action: {
-                    viewModel.firebaseLogin()
-                    refreshHome.toggle()
+                    viewModel.firebaseLogin { success in
+                        if success {
+                            refreshHome.toggle()
+                        }
+                    }
+                    
                 }) {
                     Text("Login".uppercased())
                         .foregroundColor(Color.black)

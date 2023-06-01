@@ -50,7 +50,6 @@ struct ContentView: View {
                     Alert(title: Text(message.text),
                           dismissButton: .default(Text("Dismiss")))
                }
-
                 .environmentObject(taskViewModel)
                 .navigationBarHidden(false)
                 .sheet(isPresented: $isPresentingAddView, onDismiss: {
@@ -64,8 +63,11 @@ struct ContentView: View {
                 .onChange(of: selectedTab) { newTab in
                     isPresentingAddView = newTab == "Add"
                 }
+                .onAppear(){
+                    refreshHome.toggle()
+                }
             } else {
-                LoginView(viewModel: loginViewModel)
+                LoginView(viewModel: loginViewModel, taskViewModel: taskViewModel)
                     .navigationBarHidden(false)
             }
         }

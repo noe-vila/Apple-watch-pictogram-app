@@ -88,7 +88,7 @@ struct ProfileView: View {
         } else {
             VStack {
                 Spacer()
-                LoginView(viewModel: viewModel)
+                LoginView(viewModel: viewModel, taskViewModel: taskViewModel)
                     .opacity(showLoginView ? 1 : 0)
                     .transition(.opacity)
                 Spacer()

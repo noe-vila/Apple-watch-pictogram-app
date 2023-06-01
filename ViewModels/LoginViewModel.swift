@@ -31,14 +31,16 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    func firebaseLogin() {
+    func firebaseLogin(completion: @escaping (Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
             guard let self = self else { return }
             
             if let error = error {
                 self.error = LoginError(message: error.localizedDescription)
+                completion(false) // Call completion with false to indicate failure
             } else {
                 self.handleSuccessfulLogin()
+                completion(true) // Call completion with true to indicate success
             }
         }
     }
