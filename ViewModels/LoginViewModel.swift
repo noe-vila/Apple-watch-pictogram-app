@@ -15,7 +15,7 @@ struct LoginError: Identifiable {
 }
 
 class LoginViewModel: ObservableObject {
-    @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
+    @Published var isLoggedIn: Bool = false
     @Published var isProfileLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isProfileLoggedIn")
     @Published var email: String = ""
     @Published var password: String = ""
@@ -71,7 +71,6 @@ class LoginViewModel: ObservableObject {
         isLoggedIn = true
         isProfileLoggedIn = false
         UserDefaults.standard.set(password, forKey: "password")
-        UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
         password = ""
         user = Auth.auth().currentUser
     }
@@ -81,7 +80,6 @@ class LoginViewModel: ObservableObject {
             try Auth.auth().signOut()
             isLoggedIn = false
             isProfileLoggedIn = false
-            UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
             UserDefaults.standard.set(isProfileLoggedIn, forKey: "isProfileLoggedIn")
             UserDefaults.standard.set(false, forKey: "isFaceIdEnabled")
         } catch let signOutError as NSError {

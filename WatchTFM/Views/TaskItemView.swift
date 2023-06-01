@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct TaskItemView: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     var task: Task
     
     var body: some View {
-        @Environment(\.colorScheme) var colorScheme: ColorScheme
         
         HStack {
             ZStack {

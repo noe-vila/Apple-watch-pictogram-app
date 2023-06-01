@@ -100,8 +100,14 @@ class TaskViewModel: ObservableObject {
     }
     
     func getCurrentTask() -> Task? {
-        let currentDate = Date()
-        let task = taskItems.first(where: { $0.startDate <= currentDate && $0.endDate >= currentDate })
+        let calendar = Calendar.current
+        let currentTime = Date()
+        var currentComponents = calendar.dateComponents([.hour, .minute, .second], from: currentTime)
+        currentComponents.year = 2000
+        currentComponents.month = 1
+        currentComponents.day = 1
+        let currentComponentsHMS = calendar.date(from: currentComponents)!
+        let task = taskItems.first(where: { $0.startDate <= currentComponentsHMS && $0.endDate >= currentComponentsHMS })
         return task
     }
     
@@ -165,11 +171,13 @@ class TaskViewModel: ObservableObject {
         isLoading = true
         guard let user = Auth.auth().currentUser else {
             print("User not authenticated.")
+            isLoading = false
             return
         }
         user.getIDTokenForcingRefresh(true) { idToken, error in
             if let error = error {
                 print("Error with user token: \(error)")
+                self.isLoading = false
                 return;
             }
             guard let idToken = idToken else { return }
@@ -179,11 +187,13 @@ class TaskViewModel: ObservableObject {
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let error = error {
                     print("Error loading tasks: \(error)")
+                    self.isLoading = false
                     return
                 }
                 
                 guard let data = data else {
                     print("No data received.")
+                    self.isLoading = false
                     return
                 }
                 
@@ -202,6 +212,7 @@ class TaskViewModel: ObservableObject {
                               let avgColorDataString = taskInfo["avgColorData"] as? String,
                               let avgColorData = Data(base64Encoded: avgColorDataString) else {
                             print("Invalid task data for task with ID: \(taskId)")
+                            self.isLoading = false
                             return
                         }
                         

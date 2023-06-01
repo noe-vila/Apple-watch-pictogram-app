@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import CoreImage
 
 struct AddView: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var taskName = ""
     @State private var selectedImage: Image? = Image(systemName: "figure.wave")
     @State private var selectedImageURL: String = ""
@@ -92,13 +94,16 @@ struct AddView: View {
             Button(action: {
                 performForm()
             }) {
-                @Environment(\.colorScheme) var colorScheme: ColorScheme
                 Text("Guardar".uppercased())
                     .frame(maxWidth: .infinity)
                     .padding()
                     .font(.headline)
-                    .foregroundColor(isFormValid ? (colorScheme == .light ? .white : .black) : (colorScheme == .light ? .black : .white))
                     .background(isFormValid ? Color.primary : Color.gray)
+                    .foregroundColor(
+                        isFormValid ?
+                            (colorScheme == .light ? .white : .black) :
+                            (colorScheme == .light ? .black : .white)
+                    )
                     .cornerRadius(5)
             }
             .disabled(!isFormValid)
@@ -131,7 +136,7 @@ struct AddView: View {
                 selectedImage = Image(uiImage: pictogramResult.image)
                 selectedImageURL = pictogramResult.imageURL
                 selectedImageData = pictogramResult.image.pngData() ?? Data()
-                avgColor = pictogramResult.image.withBackground(color: .white).averageColor ?? UIColor.white
+                avgColor = pictogramResult.image.dominantColor ?? UIColor.white
                 showingImageSearcher = false
             }
         }
@@ -183,7 +188,6 @@ struct ImageSearcherView: View {
             SearchView(viewModel: searchViewModel, onImageSelected: onImageSelected)
         }
         .padding()
-        .background(Color(.systemBackground))
     }
 }
 
@@ -217,21 +221,66 @@ extension UIImage {
         let context = CIContext(options: [.workingColorSpace: kCFNull!])
         context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
 
-        return UIColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
+        return UIColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: 1.0)
     }
     
-    func withBackground(color: UIColor, opaque: Bool = true) -> UIImage {
-      UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
-          
-      guard let ctx = UIGraphicsGetCurrentContext(), let image = cgImage else { return self }
-      defer { UIGraphicsEndImageContext() }
-          
-      let rect = CGRect(origin: .zero, size: size)
-      ctx.setFillColor(color.cgColor)
-      ctx.fill(rect)
-      ctx.concatenate(CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: size.height))
-      ctx.draw(image, in: rect)
-          
-      return UIGraphicsGetImageFromCurrentImageContext() ?? self
-    }
+    var dominantColor: UIColor? {
+        guard let cgImage = self.cgImage else {
+                return nil
+            }
+            
+            let width = cgImage.width
+            let height = cgImage.height
+            
+            // Create a bitmap context
+            let bytesPerPixel = 4 // RGBA
+            let bytesPerRow = bytesPerPixel * width
+            let bitsPerComponent = 8
+            let bitmapInfo: UInt32 = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue
+            let bitmapContext = CGContext(data: nil,
+                                          width: width,
+                                          height: height,
+                                          bitsPerComponent: bitsPerComponent,
+                                          bytesPerRow: bytesPerRow,
+                                          space: CGColorSpaceCreateDeviceRGB(),
+                                          bitmapInfo: bitmapInfo)!
+            
+            // Draw the image in the bitmap context
+            let imageRect = CGRect(x: 0, y: 0, width: width, height: height)
+            bitmapContext.draw(cgImage, in: imageRect)
+            
+            // Get pixel data from the bitmap context
+            guard let pixelData = bitmapContext.data else {
+                return nil
+            }
+            
+            let data = pixelData.bindMemory(to: UInt8.self, capacity: width * height * bytesPerPixel)
+            
+            var totalRed = 0
+            var totalGreen = 0
+            var totalBlue = 0
+            var count = 0
+            
+            // Iterate through pixels and accumulate color components
+            for pixel in 0..<(width * height) {
+                let offset = pixel * bytesPerPixel
+                let alpha = CGFloat(data[offset + 3]) / 255.0 // Alpha value
+                
+                // Skip transparent pixels
+                if alpha > 0 {
+                    totalRed += Int(data[offset])
+                    totalGreen += Int(data[offset + 1])
+                    totalBlue += Int(data[offset + 2])
+                    count += 1
+                }
+            }
+            
+            // Calculate average color components
+            let averageRed = CGFloat(totalRed) / CGFloat(count)
+            let averageGreen = CGFloat(totalGreen) / CGFloat(count)
+            let averageBlue = CGFloat(totalBlue) / CGFloat(count)
+            
+            return UIColor(red: averageRed / 255.0, green: averageGreen / 255.0, blue: averageBlue / 255.0, alpha: 1.0)
+        }
+    
 }
