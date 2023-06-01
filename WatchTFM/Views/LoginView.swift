@@ -3,6 +3,7 @@ import LocalAuthentication
 
 struct LoginView: View {
     @StateObject var viewModel: LoginViewModel
+    @StateObject var taskViewModel: TaskViewModel
     @State private var isAuthenticationSuccessful = false
     @State private var isProfileLogin = false
     @State private var isRegister = false
@@ -28,7 +29,7 @@ struct LoginView: View {
                 BiometricToggleView(isFaceId: $isFaceId)
             }
             }
-            LoginButtonView(isRegister: $isRegister, isFaceId: $isFaceId, isAuthenticationSuccessful: isAuthenticationSuccessful, viewModel: viewModel)
+            LoginButtonView(taskViewModel: taskViewModel, isRegister: $isRegister, isFaceId: $isFaceId, isAuthenticationSuccessful: isAuthenticationSuccessful, viewModel: viewModel)
             if !isRegister && !viewModel.isLoggedIn {
                 HStack {
                     ForgotPasswordTextView()
@@ -161,6 +162,7 @@ struct BiometricToggleView: View {
 
 struct LoginButtonView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @StateObject var taskViewModel: TaskViewModel
     @Binding var isRegister: Bool
     @Binding var isFaceId: Bool
     @State var isAuthenticationSuccessful: Bool
@@ -179,7 +181,11 @@ struct LoginButtonView: View {
                     if viewModel.isLoggedIn {
                         viewModel.profileLogin()
                     } else {
-                        viewModel.firebaseLogin()
+                        viewModel.firebaseLogin { success in
+                            if success {
+                                taskViewModel.loadTasks()
+                            }
+                        }
                     }
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -190,6 +196,7 @@ struct LoginButtonView: View {
         }) {
             if pulsed {
                 ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
             } else {
                 Text(viewModel.isLoggedIn ? "Acceder".uppercased() : "Iniciar sesión".uppercased())
                     .font(.headline)
@@ -274,6 +281,7 @@ struct SignUpButtonView: View {
         }) {
             if pulsed {
                 ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
             } else {
                 Text("Registrarse".uppercased())
                     .font(.headline)
