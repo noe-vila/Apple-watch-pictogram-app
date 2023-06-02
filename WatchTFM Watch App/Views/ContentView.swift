@@ -20,11 +20,12 @@ struct ContentView: View {
             if taskViewModel.isLoading {
                 ProgressView()
             } else {
-                TaskView(task: taskViewModel.getCurrentTask() ?? Task())
-                    .alert(item: $connectivityManager.notificationMessage) { message in
-                        Alert(title: Text(message.text),
-                              dismissButton: .default(Text("Dismiss")))
-                    }
+                TaskListView(tasks: taskViewModel.getTaskItems(), currentTaskIndex: taskViewModel.getCurrentIndexTask())
+//                TaskView(task: taskViewModel.getCurrentTask() ?? Task())
+//                    .alert(item: $connectivityManager.notificationMessage) { message in
+//                        Alert(title: Text(message.text),
+//                              dismissButton: .default(Text("Dismiss")))
+//                    }
             }
         } else {
             LoginView(viewModel: loginViewModel, refreshHome: $refreshHome)
