@@ -41,7 +41,9 @@ struct TaskRoundedView: View {
         ZStack {
             frontCoinView(task: task, degree: $backDegree)
             backCoinView(task: task, degree: $frontDegree)
-        }.onTapGesture {
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .onTapGesture {
             flipCard ()
         }
     }

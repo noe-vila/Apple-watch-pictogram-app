@@ -111,6 +111,15 @@ class TaskViewModel: ObservableObject {
         return task
     }
     
+    func getCurrentIndexTask() -> Int {
+        guard let task = getCurrentTask() else { return 0 }
+        if let index = getTaskIndex(task: task) {
+            return index
+        } else {
+            return 0
+        }
+    }
+    
     func sendCurrentTaskToWatch() {
         guard let currentTask = getCurrentTask() else {
             return
@@ -222,7 +231,7 @@ class TaskViewModel: ObservableObject {
                         let loadedTask = Task(id: taskId, imageData: imageData, name: name, startDate: startDate, endDate: endDate, avgColorData: avgColorData)
                         loadedTasks.append(loadedTask)
                     }
-                    
+                    loadedTasks.sort { $0.startDate < $1.startDate }
                     DispatchQueue.main.async {
                         self.taskItems = loadedTasks
                         self.isLoading = false

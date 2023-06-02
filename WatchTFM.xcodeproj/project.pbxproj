@@ -55,6 +55,7 @@
 		DCEBD9782A238BAC00ED16BA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD9772A238BAC00ED16BA /* FirebaseAnalytics */; };
 		DCEBD97A2A238BAC00ED16BA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD9792A238BAC00ED16BA /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		DCEBD97C2A238BAC00ED16BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DCEBD97B2A238BAC00ED16BA /* FirebaseAuth */; };
+		DCEDF32A2A2937200039D79A /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEDF3292A2937200039D79A /* TaskListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		DCC033D32A21F12100797A52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCC033D72A21F45A00797A52 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DCC340022A247D790097A8C5 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		DCEDF3292A2937200039D79A /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				DC3012492A1A69BF008B5CA3 /* ContentView.swift */,
+				DCEDF3292A2937200039D79A /* TaskListView.swift */,
 				DC4731952A2201D800A86DF0 /* TaskView.swift */,
 				DC7D9F402A23B2F200558A44 /* LoginView.swift */,
 				DC937EB42A2611F400B7A661 /* TaskRoundedView.swift */,
@@ -440,6 +443,7 @@
 				DC30124A2A1A69BF008B5CA3 /* ContentView.swift in Sources */,
 				DC57A4092A23AC5000355B10 /* TaskViewModel.swift in Sources */,
 				DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */,
+				DCEDF32A2A2937200039D79A /* TaskListView.swift in Sources */,
 				DC937EB52A2611F400B7A661 /* TaskRoundedView.swift in Sources */,
 				DC7D9F412A23B2F200558A44 /* LoginView.swift in Sources */,
 				DCC340042A247D790097A8C5 /* WatchConnectivityManager.swift in Sources */,
