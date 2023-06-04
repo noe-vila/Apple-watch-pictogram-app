@@ -39,8 +39,8 @@ struct TaskRoundedView: View {
     //MARK: View Body
     var body: some View {
         ZStack {
-            frontCoinView(task: task, degree: $backDegree)
-            backCoinView(task: task, degree: $frontDegree)
+            frontCoinView(task: task, degree: $backDegree, progress: 0)
+            backCoinView(task: task, degree: $frontDegree, progress: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .onTapGesture {
@@ -52,7 +52,7 @@ struct TaskRoundedView: View {
 struct frontCoinView: View {
     var task: Task
     @Binding var degree : Double
-    @State private var progress: Double = 0
+    @State var progress: Double
     
     
     var body: some View {
@@ -81,9 +81,6 @@ struct frontCoinView: View {
         .onAppear() {
             progress = task.taskTodayDone ? 1 : calculateTimePercentage(initial: task.startDate, end: task.endDate)
         }
-        .onDisappear() {
-            progress = 0
-        }
         .scaledToFill()
         .padding()
         .rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y: 1, z: 0))
@@ -93,7 +90,7 @@ struct frontCoinView: View {
 struct backCoinView: View {
     var task: Task
     @Binding var degree : Double
-    @State private var progress: Double = 0
+    @State var progress: Double
     
     var body: some View {
         ZStack {
@@ -124,10 +121,7 @@ struct backCoinView: View {
                 .animation(.easeOut, value: progress)
         }
         .onAppear() {
-            progress = calculateTimePercentage(initial: task.startDate, end: task.endDate)
-        }
-        .onDisappear() {
-            progress = 0
+            progress = task.taskTodayDone ? 1 : calculateTimePercentage(initial: task.startDate, end: task.endDate)
         }
         .scaledToFill()
         .padding()
@@ -139,26 +133,4 @@ struct backCoinView: View {
         formatter.dateFormat = "HH:mm"
         return formatter.string(from: date)
     }
-}
-
-private func calculateTimePercentage(initial: Date, end: Date) -> Double {
-    let calendar = Calendar.current
-    
-    let initialComponents = calendar.dateComponents([.hour, .minute, .second], from: initial)
-    let initialTime = calendar.date(from: initialComponents)!
-    
-    let endComponents = calendar.dateComponents([.hour, .minute, .second], from: end)
-    let endTime = calendar.date(from: endComponents)!
-    
-    let currentComponents = calendar.dateComponents([.hour, .minute, .second], from: Date())
-    let currentTime = calendar.date(from: currentComponents)!
-    
-    let totalTimeInterval = endTime.timeIntervalSince(initialTime)
-    let passedTimeInterval = currentTime.timeIntervalSince(initialTime)
-    
-    if totalTimeInterval > 0 && passedTimeInterval >= 0 {
-        let percentage = passedTimeInterval / totalTimeInterval
-        return min(percentage, 1.0)
-    }
-    return 0
 }

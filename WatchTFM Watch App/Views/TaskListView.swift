@@ -27,8 +27,11 @@ struct TaskListView: View {
         .tabViewStyle(.carousel)
         .animation(.default, value: currentIndex)
         .onAppear {
-            currentIndex = taskViewModel.getCurrentTaskIndex() ?? taskViewModel.getNextTaskIndex() ?? taskViewModel.getTaskItems().count - 1
+            currentIndex = taskViewModel.getCurrentTaskIndex() ?? taskViewModel.getNextTaskIndex() ?? taskViewModel.getTaskItems().count
             initialIndex = currentIndex
+            if currentIndex == taskViewModel.getTaskItems().count {
+                currentIndex -= 1
+            }
         }
     }
 }
