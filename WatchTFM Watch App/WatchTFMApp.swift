@@ -11,6 +11,8 @@ import WatchConnectivity
 
 @main
 struct WatchTFM_Watch_AppApp: App {
+    @StateObject private var taskViewModel = TaskViewModel()
+    
     init() {
         FirebaseApp.configure()
     }
@@ -19,6 +21,7 @@ struct WatchTFM_Watch_AppApp: App {
         WindowGroup {
             ContentView()
             .edgesIgnoringSafeArea(.all)
+            .environmentObject(taskViewModel)
         }
     }
 }

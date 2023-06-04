@@ -9,15 +9,10 @@ import SwiftUI
 import WatchKit
 
 struct TaskListView: View {
-    var taskViewModel: TaskViewModel
-    @State private var currentIndex: Int
-    @State private var initialIndex: Int
+    @EnvironmentObject var taskViewModel: TaskViewModel
+    @State private var currentIndex: Int = 0
+    @State private var initialIndex: Int = 0
     
-    init(taskViewModel: TaskViewModel) {
-        self.taskViewModel = taskViewModel
-        _currentIndex = State(initialValue: taskViewModel.getCurrentTaskIndex() ?? taskViewModel.getNextTaskIndex() ?? taskViewModel.getTaskItems().count - 1)
-        _initialIndex = _currentIndex
-    }
     
     var body: some View {
         TabView(selection: $currentIndex) {
@@ -31,5 +26,9 @@ struct TaskListView: View {
         .edgesIgnoringSafeArea(.all)
         .tabViewStyle(.carousel)
         .animation(.default, value: currentIndex)
+        .onAppear {
+            currentIndex = taskViewModel.getCurrentTaskIndex() ?? taskViewModel.getNextTaskIndex() ?? taskViewModel.getTaskItems().count - 1
+            initialIndex = currentIndex
+        }
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject private var healthKitManager = HealthKitManager()
     @StateObject private var loginViewModel = LoginViewModel()
-    @StateObject private var taskViewModel = TaskViewModel()
+    @EnvironmentObject var taskViewModel: TaskViewModel
     @State private var refreshHome = false
     
     @ObservedObject private var connectivityManager = WatchConnectivityManager.shared
@@ -20,7 +20,7 @@ struct ContentView: View {
             if taskViewModel.isLoading {
                 ProgressView()
             } else {
-                TaskListView(taskViewModel: taskViewModel)
+                TaskListView()
 //                TaskView(task: taskViewModel.getCurrentTask() ?? Task())
 //                    .alert(item: $connectivityManager.notificationMessage) { message in
 //                        Alert(title: Text(message.text),
@@ -30,13 +30,5 @@ struct ContentView: View {
         } else {
             LoginView(viewModel: loginViewModel, refreshHome: $refreshHome)
         }
-    }
-}
-
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
