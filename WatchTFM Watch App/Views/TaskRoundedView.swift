@@ -54,6 +54,7 @@ struct frontCoinView: View {
     @Binding var degree : Double
     @State private var progress: Double = 0
     
+    
     var body: some View {
         ZStack {
             Image(uiImage: UIImage(data: Data(base64Encoded: task.imageData) ?? Data()) ?? UIImage())
@@ -78,7 +79,7 @@ struct frontCoinView: View {
                 .animation(.easeOut, value: progress)
         }
         .onAppear() {
-            progress = calculateTimePercentage(initial: task.startDate, end: task.endDate)
+            progress = task.taskTodayDone ? 1 : calculateTimePercentage(initial: task.startDate, end: task.endDate)
         }
         .onDisappear() {
             progress = 0

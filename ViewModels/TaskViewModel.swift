@@ -19,7 +19,7 @@ class TaskViewModel: ObservableObject {
     init() {
         loadTasks()
     }
-        
+    
     func getTaskItems() -> [Task] {
         return taskItems
     }
@@ -48,17 +48,17 @@ class TaskViewModel: ObservableObject {
         saveTask(task)
         return nil
     }
-
+    
     private func saveTask(_ task: Task) {
         guard let user = Auth.auth().currentUser else {
             print("User not authenticated.")
             return
         }
         user.getIDTokenForcingRefresh(true) { idToken, error in
-          if let error = error {
-              print("Error with user token: \(error)")
-            return;
-          }
+            if let error = error {
+                print("Error with user token: \(error)")
+                return;
+            }
             guard let idToken = idToken else { return }
             let endpoint = "/users/\(user.uid)/taskItems.json?auth=\(idToken)"
             let url = URL(string: self.baseURL + endpoint)!
@@ -141,20 +141,53 @@ class TaskViewModel: ObservableObject {
         }
     }
     
-    func sendCurrentTaskToWatch() {
-        guard let currentTask = getCurrentTask() else {
+    func setTaskDone(task: Task) {
+        guard let user = Auth.auth().currentUser else {
+            print("User not authenticated.")
             return
         }
-        let session = WCSession.default
-        if session.isReachable {
-            do {
-                let encodedTask = try JSONEncoder().encode(currentTask)
-                session.sendMessageData(encodedTask, replyHandler: nil, errorHandler: { error in
-                    print("Error sending task to watch: \(error)")
-                })
-            } catch {
-                print("Error encoding task: \(error)")
+        user.getIDTokenForcingRefresh(true) { idToken, error in
+            if let error = error {
+                print("Error with user token: \(error)")
+                return
             }
+            guard let idToken = idToken else { return }
+            let endpoint = "/users/\(user.uid)/taskItems/\(task.id)/.json?auth=\(idToken)"
+            let url = URL(string: self.baseURL + endpoint)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "PATCH"
+            
+            let currentTimeStamp = Date().timeIntervalSince1970
+            let timestampData: [String: Any] = ["lastTimeTaskDone": currentTimeStamp]
+            
+            
+            
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: timestampData)
+                request.httpBody = jsonData
+            } catch {
+                print("Error serializing timestamp data: \(error)")
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print("Error setting task as done: \(error)")
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                    if let index = self.getTaskIndex(task: task) {
+                        self.taskItems[index].taskTodayDone = true
+                    }
+                    print("Task set as done successfully.")
+                } else {
+                    print("Error setting task as done: \(response!)")
+                }
+            }
+            
+            task.resume()
         }
     }
     
@@ -240,7 +273,8 @@ class TaskViewModel: ObservableObject {
                               let startDateTimestamp = taskInfo["startDate"] as? TimeInterval,
                               let endDateTimestamp = taskInfo["endDate"] as? TimeInterval,
                               let avgColorDataString = taskInfo["avgColorData"] as? String,
-                              let avgColorData = Data(base64Encoded: avgColorDataString) else {
+                              let avgColorData = Data(base64Encoded: avgColorDataString),
+                              let taskTodayDone = self.isInToday(date: Date(), timeIntervalSince1970: taskInfo["lastTimeTaskDone"] as? TimeInterval ?? 0) else {
                             print("Invalid task data for task with ID: \(taskId)")
                             self.isLoading = false
                             return
@@ -249,7 +283,7 @@ class TaskViewModel: ObservableObject {
                         let startDate = Date(timeIntervalSince1970: startDateTimestamp)
                         let endDate = Date(timeIntervalSince1970: endDateTimestamp)
                         
-                        let loadedTask = Task(id: taskId, imageData: imageData, name: name, startDate: startDate, endDate: endDate, avgColorData: avgColorData)
+                        let loadedTask = Task(id: taskId, imageData: imageData, name: name, startDate: startDate, endDate: endDate, avgColorData: avgColorData, taskTodayDone: taskTodayDone)
                         loadedTasks.append(loadedTask)
                     }
                     loadedTasks.sort { $0.startDate < $1.startDate }
@@ -269,6 +303,13 @@ class TaskViewModel: ObservableObject {
             task.resume()
         }
     }
-
+    
+    func isInToday(date: Date, timeIntervalSince1970: TimeInterval) -> Bool? {
+        let calendar = Calendar.current
+        let todayStart = calendar.startOfDay(for: date)
+        let todayEnd = calendar.date(byAdding: .day, value: 1, to: todayStart)!
+        let taskDate = Date(timeIntervalSince1970: timeIntervalSince1970)
+        return taskDate >= todayStart && taskDate < todayEnd
+    }
     
 }
