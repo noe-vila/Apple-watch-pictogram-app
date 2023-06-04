@@ -9,23 +9,24 @@ import SwiftUI
 import WatchKit
 
 struct TaskListView: View {
-    var tasks: [Task]
-    var currentTaskIndex: Int
-    @State private var scrollAmount = 0.0
-    @State private var currentIndex = 1
+    var taskViewModel: TaskViewModel
+    @State private var currentIndex: Int
+    @State private var initialIndex: Int
     
+    init(taskViewModel: TaskViewModel) {
+        self.taskViewModel = taskViewModel
+        _currentIndex = State(initialValue: taskViewModel.getCurrentTaskIndex() ?? taskViewModel.getNextTaskIndex() ?? taskViewModel.getTaskItems().count - 1)
+        _initialIndex = _currentIndex
+    }
     
     var body: some View {
         TabView(selection: $currentIndex) {
-            TaskView(task: tasks[currentTaskIndex - 1])
-                .tag(0)
-                .ignoresSafeArea(.all)
-            TaskView(task: tasks[currentTaskIndex])
-                .tag(1)
-                .ignoresSafeArea(.all)
-            TaskView(task: tasks[currentTaskIndex + 1])
-                .tag(2)
-                .ignoresSafeArea(.all)
+            ForEach(Array(taskViewModel.getTaskItems().enumerated()), id: \.1.self) { index, task in
+                TaskView(task: task)
+                    .tag(index)
+                    .ignoresSafeArea(.all)
+                    .opacity(index < initialIndex ? 0.5 : 1)
+            }
         }
         .edgesIgnoringSafeArea(.all)
         .tabViewStyle(.carousel)

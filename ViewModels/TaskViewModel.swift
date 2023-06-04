@@ -111,12 +111,33 @@ class TaskViewModel: ObservableObject {
         return task
     }
     
-    func getCurrentIndexTask() -> Int {
-        guard let task = getCurrentTask() else { return 0 }
+    func getNextTask() -> Task? {
+        let calendar = Calendar.current
+        let currentTime = Date()
+        var currentComponents = calendar.dateComponents([.hour, .minute, .second], from: currentTime)
+        currentComponents.year = 2000
+        currentComponents.month = 1
+        currentComponents.day = 1
+        let currentComponentsHMS = calendar.date(byAdding: .second, value: 1, to: calendar.date(from: currentComponents)!)!
+        let task = taskItems.first(where: { $0.startDate > currentComponentsHMS })
+        return task
+    }
+    
+    func getCurrentTaskIndex() -> Int? {
+        guard let task = getCurrentTask() else { return nil }
         if let index = getTaskIndex(task: task) {
             return index
         } else {
-            return 0
+            return nil
+        }
+    }
+    
+    func getNextTaskIndex() -> Int? {
+        guard let task = getNextTask() else { return 0 }
+        if let index = getTaskIndex(task: task) {
+            return index
+        } else {
+            return nil
         }
     }
     
@@ -149,7 +170,7 @@ class TaskViewModel: ObservableObject {
                 return;
             }
             guard let idToken = idToken else { return }
-            let endpoint = "/users/\(user.uid)/taskItems.json?auth=\(idToken)"
+            let endpoint = "/users/\(user.uid)/taskItems/\(myTask.id).json?auth=\(idToken)"
             let url = URL(string: self.baseURL + endpoint)!
             
             var request = URLRequest(url: url)
