@@ -20,7 +20,7 @@ struct ContentView: View {
             if taskViewModel.isLoading {
                 ProgressView()
             } else {
-                TaskListView(tasks: taskViewModel.getTaskItems(), currentTaskIndex: taskViewModel.getCurrentIndexTask())
+                TaskListView(taskViewModel: taskViewModel)
 //                TaskView(task: taskViewModel.getCurrentTask() ?? Task())
 //                    .alert(item: $connectivityManager.notificationMessage) { message in
 //                        Alert(title: Text(message.text),

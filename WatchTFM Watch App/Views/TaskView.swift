@@ -12,13 +12,8 @@ struct TaskView: View {
     
     var body: some View {
         NavigationView {
-//            VStack {
-//                Text(task.name.uppercased())
-//                    .foregroundColor(Color.secondary)
-//
-//            }
             TaskRoundedView(task: task)
-            .navigationBarHidden(true)
+                .navigationBarHidden(true)
         }
     }
 }
