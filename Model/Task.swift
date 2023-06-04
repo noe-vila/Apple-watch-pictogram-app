@@ -15,14 +15,16 @@ struct Task: Equatable, Codable, Hashable {
     let startDate: Date
     let endDate: Date
     let avgColorData: String
+    var taskTodayDone: Bool
     
-    init(id: String = UUID().uuidString, imageData: Data = Data(), name: String = "", startDate: Date = Date(), endDate: Date = Date(), avgColorData: Data = Data()) {
+    init(id: String = UUID().uuidString, imageData: Data = Data(), name: String = "", startDate: Date = Date(), endDate: Date = Date(), avgColorData: Data = Data(), taskTodayDone: Bool = false) {
         self.id = id
         self.imageData = imageData.base64EncodedString()
         self.name = name
         self.startDate = startDate
         self.endDate = endDate
         self.avgColorData = avgColorData.base64EncodedString()
+        self.taskTodayDone = taskTodayDone
     }
     
     init(from decoder: Decoder) throws {
@@ -35,6 +37,7 @@ struct Task: Equatable, Codable, Hashable {
         self.endDate = try container.decode(Date.self, forKey: .endDate)
         let avgColorDataString = try container.decode(String.self, forKey: .avgColor)
         self.avgColorData = avgColorDataString
+        self.taskTodayDone = false
     }
     
     func encode(to encoder: Encoder) throws {

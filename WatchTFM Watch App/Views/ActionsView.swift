@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ActionsView: View {
-    var task: Task
+    @Binding var task: Task
+    @Binding var shouldPresentActions: Bool
+    @EnvironmentObject var taskViewModel: TaskViewModel
     
     var body: some View {
         VStack(spacing: 20) {
@@ -17,11 +19,18 @@ struct ActionsView: View {
                     .resizable()
                     .scaledToFit()
                     .foregroundColor(.red)
+                    .onTapGesture {
+                    }
 
                 Image(systemName: "checkmark.circle.fill")
                     .resizable()
                     .scaledToFit()
                     .foregroundColor(.green)
+                    .onTapGesture {
+                        taskViewModel.setTaskDone(task: task)
+                        task.taskTodayDone = true
+                        shouldPresentActions = false
+                    }
                 
             }
             
@@ -36,6 +45,9 @@ struct ActionsView: View {
                     .resizable()
                     .scaledToFit()
                     .foregroundColor(.gray)
+                    .onTapGesture {
+                        shouldPresentActions = false
+                    }
             }
         }
         .navigationTitle("Acciones".uppercased())

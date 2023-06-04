@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskView: View {
-    var task: Task
+    @State var task: Task
     @State var shouldPresentActions = false
     
     var body: some View {
@@ -21,7 +21,7 @@ struct TaskView: View {
                 .sheet(isPresented: $shouldPresentActions, onDismiss: {
                     shouldPresentActions = false
                 }) {
-                    ActionsView(task: task)
+                    ActionsView(task: $task, shouldPresentActions: $shouldPresentActions)
                 }
         }
     }
