@@ -20,6 +20,10 @@ struct ActionsView: View {
                     .scaledToFit()
                     .foregroundColor(.red)
                     .onTapGesture {
+                        taskViewModel.finishTask(task: task, isSuccess: false)
+                        taskViewModel.setTaskDone(task: task)
+                        task.taskTodayDone = true
+                        shouldPresentActions = false
                     }
 
                 Image(systemName: "checkmark.circle.fill")
@@ -27,6 +31,7 @@ struct ActionsView: View {
                     .scaledToFit()
                     .foregroundColor(.green)
                     .onTapGesture {
+                        taskViewModel.finishTask(task: task, isSuccess: true)
                         taskViewModel.setTaskDone(task: task)
                         task.taskTodayDone = true
                         shouldPresentActions = false

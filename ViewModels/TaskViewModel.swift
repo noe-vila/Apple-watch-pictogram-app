@@ -133,7 +133,7 @@ class TaskViewModel: ObservableObject {
     }
     
     func getNextTaskIndex() -> Int? {
-        guard let task = getNextTask() else { return 0 }
+        guard let task = getNextTask() else { return nil }
         if let index = getTaskIndex(task: task) {
             return index
         } else {
@@ -161,8 +161,6 @@ class TaskViewModel: ObservableObject {
             let currentTimeStamp = Date().timeIntervalSince1970
             let timestampData: [String: Any] = ["lastTimeTaskDone": currentTimeStamp]
             
-            
-            
             do {
                 let jsonData = try JSONSerialization.data(withJSONObject: timestampData)
                 request.httpBody = jsonData
@@ -182,6 +180,55 @@ class TaskViewModel: ObservableObject {
                         self.taskItems[index].taskTodayDone = true
                     }
                     print("Task set as done successfully.")
+                } else {
+                    print("Error setting task as done: \(response!)")
+                }
+            }
+            
+            task.resume()
+        }
+    }
+    
+    func finishTask(task: Task, isSuccess: Bool) {
+        guard let user = Auth.auth().currentUser else {
+            print("User not authenticated.")
+            return
+        }
+        user.getIDTokenForcingRefresh(true) { idToken, error in
+            if let error = error {
+                print("Error with user token: \(error)")
+                return
+            }
+            guard let idToken = idToken else { return }
+            let successURL = isSuccess ? "success" : "failed"
+            let endpoint = "/users/\(user.uid)/taskItems/\(task.id)/\(successURL).json?auth=\(idToken)"
+            let url = URL(string: self.baseURL + endpoint)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "PATCH"
+            
+            let currentProgress = calculateTimePercentage(initial: task.startDate, end: task.endDate)
+            let timestampData: [String: Double] = [UUID().uuidString: currentProgress]
+            
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: timestampData)
+                request.httpBody = jsonData
+            } catch {
+                print("Error serializing timestamp data: \(error)")
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print("Error setting task as done: \(error)")
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                    if let index = self.getTaskIndex(task: task) {
+                        self.taskItems[index].taskTodayDone = true
+                    }
+                    print("Task finihed successfully.")
                 } else {
                     print("Error setting task as done: \(response!)")
                 }
@@ -312,4 +359,27 @@ class TaskViewModel: ObservableObject {
         return taskDate >= todayStart && taskDate < todayEnd
     }
     
+}
+
+
+func calculateTimePercentage(initial: Date, end: Date) -> Double {
+    let calendar = Calendar.current
+    
+    let initialComponents = calendar.dateComponents([.hour, .minute, .second], from: initial)
+    let initialTime = calendar.date(from: initialComponents)!
+    
+    let endComponents = calendar.dateComponents([.hour, .minute, .second], from: end)
+    let endTime = calendar.date(from: endComponents)!
+    
+    let currentComponents = calendar.dateComponents([.hour, .minute, .second], from: Date())
+    let currentTime = calendar.date(from: currentComponents)!
+    
+    let totalTimeInterval = endTime.timeIntervalSince(initialTime)
+    let passedTimeInterval = currentTime.timeIntervalSince(initialTime)
+    
+    if totalTimeInterval > 0 && passedTimeInterval >= 0 {
+        let percentage = passedTimeInterval / totalTimeInterval
+        return min(percentage, 1.0)
+    }
+    return 0
 }
