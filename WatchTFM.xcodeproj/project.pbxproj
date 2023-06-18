@@ -13,6 +13,7 @@
 		DC160DBE2A23906500CA4F55 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC160DBD2A23906500CA4F55 /* FirebaseDatabaseSwift */; };
 		DC160DC02A23951800CA4F55 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC160DBF2A23951800CA4F55 /* GoogleService-Info.plist */; };
 		DC19889A2A27DBA6007111DA /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1988992A27DBA6007111DA /* ForgotPasswordView.swift */; };
+		DC269B672A3F7AC300629B29 /* CalmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC269B662A3F7AC300629B29 /* CalmView.swift */; };
 		DC3012362A1A69BD008B5CA3 /* WatchTFMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3012352A1A69BD008B5CA3 /* WatchTFMApp.swift */; };
 		DC3012382A1A69BD008B5CA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3012372A1A69BD008B5CA3 /* ContentView.swift */; };
 		DC30123A2A1A69BF008B5CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC3012392A1A69BF008B5CA3 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 /* Begin PBXFileReference section */
 		DC160DBF2A23951800CA4F55 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DC1988992A27DBA6007111DA /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		DC269B662A3F7AC300629B29 /* CalmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalmView.swift; sourceTree = "<group>"; };
 		DC3012322A1A69BD008B5CA3 /* WatchTFM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchTFM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC3012352A1A69BD008B5CA3 /* WatchTFMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTFMApp.swift; sourceTree = "<group>"; };
 		DC3012372A1A69BD008B5CA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -208,7 +210,6 @@
 				DC3012472A1A69BF008B5CA3 /* WatchTFMApp.swift */,
 				DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */,
 				DC96DD212A1D31A500DA6A13 /* Views */,
-				DC96DD242A1D31FA00DA6A13 /* Models */,
 				DC30124B2A1A69C0008B5CA3 /* Assets.xcassets */,
 				DC30124D2A1A69C0008B5CA3 /* Preview Content */,
 			);
@@ -260,6 +261,7 @@
 				DC7D9F402A23B2F200558A44 /* LoginView.swift */,
 				DC937EB42A2611F400B7A661 /* TaskRoundedView.swift */,
 				DCB393132A2CA1DF00C135C1 /* ActionsView.swift */,
+				DC269B662A3F7AC300629B29 /* CalmView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -270,13 +272,6 @@
 				DC96DD302A1E25F100DA6A13 /* SearchViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		DC96DD242A1D31FA00DA6A13 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		DCC033DA2A21F47B00797A52 /* Model */ = {
@@ -450,6 +445,7 @@
 				DCB393142A2CA1DF00C135C1 /* ActionsView.swift in Sources */,
 				DC937EB52A2611F400B7A661 /* TaskRoundedView.swift in Sources */,
 				DC7D9F412A23B2F200558A44 /* LoginView.swift in Sources */,
+				DC269B672A3F7AC300629B29 /* CalmView.swift in Sources */,
 				DCC340042A247D790097A8C5 /* WatchConnectivityManager.swift in Sources */,
 				DCC033D92A21F45A00797A52 /* Task.swift in Sources */,
 				DC57A40C2A23AC6500355B10 /* LoginViewModel.swift in Sources */,
