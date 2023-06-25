@@ -13,6 +13,11 @@ struct ProfileView: View {
     @State private var showStatistics = false
     @StateObject var viewModel: LoginViewModel
     @StateObject var taskViewModel: TaskViewModel
+    @State private var selectedTask: Task = Task() {
+        didSet {
+            showStatistics.toggle()
+        }
+    }
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowingStatisticsIcon = false
@@ -46,7 +51,7 @@ struct ProfileView: View {
                     LazyVGrid(columns: gridItems(), spacing: 20) {
                         ForEach(taskViewModel.getAlphabeticalTaskItems(), id: \.self) { task in
                             Button(action: {
-                                showStatistics.toggle()
+                                selectedTask = task
                             }) {
                                 VStack {
                                     ZStack {
@@ -64,7 +69,7 @@ struct ProfileView: View {
                                 }
                             }
                             .sheet(isPresented: $showStatistics) {
-                                StatisticsView()
+                                StatisticsView(task: $selectedTask)
                             }
                         }
                     }

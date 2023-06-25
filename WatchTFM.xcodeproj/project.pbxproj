@@ -24,6 +24,7 @@
 		DC30124C2A1A69C0008B5CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC30124B2A1A69C0008B5CA3 /* Assets.xcassets */; };
 		DC30124F2A1A69C0008B5CA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC30124E2A1A69C0008B5CA3 /* Preview Assets.xcassets */; };
 		DC30125E2A1A6EBE008B5CA3 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */; };
+		DC322C512A48B02A0030F674 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = DC322C502A48B02A0030F674 /* SwiftUICharts */; };
 		DC4731962A2201D800A86DF0 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4731952A2201D800A86DF0 /* TaskView.swift */; };
 		DC57A4082A23AC5000355B10 /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC57A4072A23AC5000355B10 /* TaskViewModel.swift */; };
 		DC57A4092A23AC5000355B10 /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC57A4072A23AC5000355B10 /* TaskViewModel.swift */; };
@@ -103,6 +104,7 @@
 		DC30125C2A1A6B38008B5CA3 /* WatchTFM Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WatchTFM Watch App.entitlements"; sourceTree = "<group>"; };
 		DC30125D2A1A6EBE008B5CA3 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		DC4731952A2201D800A86DF0 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
+		DC4A44DF2A48AEBC00BB01AB /* ChartView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ChartView; sourceTree = "<group>"; };
 		DC57A4072A23AC5000355B10 /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
 		DC57A40A2A23AC6500355B10 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		DC68C5712A23CBC600B3804B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				DCEBD9712A235C9A00ED16BA /* FirebaseFirestoreSwift in Frameworks */,
 				DCEBD9662A22446B00ED16BA /* FirebaseAnalytics in Frameworks */,
 				DCEBD96C2A22446B00ED16BA /* FirebaseFirestore in Frameworks */,
+				DC322C512A48B02A0030F674 /* SwiftUICharts in Frameworks */,
 				DCEBD96A2A22446B00ED16BA /* FirebaseAuth in Frameworks */,
 				DCEBD9682A22446B00ED16BA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
@@ -159,6 +162,7 @@
 		DC3012292A1A69BD008B5CA3 = {
 			isa = PBXGroup;
 			children = (
+				DC4A44DE2A48AEBC00BB01AB /* Packages */,
 				DCC340022A247D790097A8C5 /* WatchConnectivityManager.swift */,
 				DC57A4062A23AC3900355B10 /* ViewModels */,
 				DCC033DA2A21F47B00797A52 /* Model */,
@@ -222,6 +226,14 @@
 				DC30124E2A1A69C0008B5CA3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DC4A44DE2A48AEBC00BB01AB /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				DC4A44DF2A48AEBC00BB01AB /* ChartView */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		DC57A4062A23AC3900355B10 /* ViewModels */ = {
@@ -315,6 +327,7 @@
 				DCEBD9702A235C9A00ED16BA /* FirebaseFirestoreSwift */,
 				DC160DBB2A23906500CA4F55 /* FirebaseDatabase */,
 				DC160DBD2A23906500CA4F55 /* FirebaseDatabaseSwift */,
+				DC322C502A48B02A0030F674 /* SwiftUICharts */,
 			);
 			productName = WatchTFM;
 			productReference = DC3012322A1A69BD008B5CA3 /* WatchTFM.app */;
@@ -779,6 +792,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DCEBD9642A22446B00ED16BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDatabaseSwift;
+		};
+		DC322C502A48B02A0030F674 /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftUICharts;
 		};
 		DCEBD9652A22446B00ED16BA /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
